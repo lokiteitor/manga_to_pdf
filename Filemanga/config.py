@@ -1,4 +1,6 @@
 #!/usr/bin/env python2.7
+
+
 import os
 
 """prepara el area de trabajo en cada llamada"""
@@ -6,9 +8,9 @@ import os
 WORKING_DIR = os.environ['HOME'] + '/Documentos/Manga_to_pdf'
 
 LIBRARY_ZIP = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/zip'
-DESCOMPRESSED_ZIP = os.environ['HOME'] + '/Documentos/Manga_to_pdf/tmp/images'
+DESCOMPRESSED_ZIP = os.environ['HOME'] + '/.manga_to_pdf/tmp/images'
 
-MODIFIED_IMAGES = os.environ['HOME'] + '/Documentos/Manga_to_pdf/tmp/images_modified'
+MODIFIED_IMAGES = os.environ['HOME'] + '/.manga_to_pdf/tmp/images_modified'
 
 
 l_path = [LIBRARY_ZIP,DESCOMPRESSED_ZIP,MODIFIED_IMAGES]
