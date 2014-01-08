@@ -50,9 +50,10 @@ def UnCompress(obj):
 
 			zip.extractall(path_final)
 
+	# error 008: mover este procedimento a nuevo modulo mencionado en FileImage		
+
 	shutil.move(obj,config.LIBRARY_ZIP + '/')
 
 	return
 
-# error 005: 
 # error 006: implementar comprecion de manga una vez implementados

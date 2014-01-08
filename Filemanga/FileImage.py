@@ -12,6 +12,9 @@ from reportlab.lib.pagesizes import A4
 
 
 def Manage_Image():
+	"""proporciona un filtro de archivos y directorios candidatos para el 
+	posterior manejo por la funcion Manipulate"""
+
 	origin = os.getcwd()
 
 	os.chdir(config.DESCOMPRESSED_ZIP)
@@ -31,6 +34,9 @@ def Manage_Image():
 
 			file_valid = glob.glob('*.jpg') + glob.glob('*.png') + glob.glob('*.jpeg')
 
+
+			# error 008: las funciones embebidas en otras podrian causar
+			# futuros errores derivados de sus dependecias
 			Manipulate(file_valid,i)
 
 			os.chdir(config.DESCOMPRESSED_ZIP)
@@ -72,7 +78,11 @@ def Manipulate(candidate,path):
 	return
 
 
-# error 007 implementar funcion encargada de limpiar basura
+# error 007: implementar funcion encargada de limpiar
+# se ha decidido que esta implementacion deberia de correr a cargo de un
+# modulo independiente que tenga la funcion de gestionar pre y post uso de los
+# las archivos en cuestion
+
 
 
 

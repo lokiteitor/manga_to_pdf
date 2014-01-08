@@ -1,7 +1,5 @@
 #!/usr/bin/env python2.7
 
-
-
 import config
 import os
 import shutil
@@ -35,6 +33,8 @@ def Make_Document(files,path,title):
 
     Document.save()
     search = os.getcwd() + '/' + title + '.pdf'
+
+    # error 008
     shutil.move(search,config.WORKING_DIR + '/')
 
     return
