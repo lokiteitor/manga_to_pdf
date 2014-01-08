@@ -32,9 +32,15 @@ def Make_Document(files,path,title):
         Document.showPage()
 
     Document.save()
+    #retorna la ruta al documento generado
     search = os.getcwd() + '/' + title + '.pdf'
 
     # error 008
-    shutil.move(search,config.WORKING_DIR + '/')
+
+    if not os.path.exists(config.WORKING_DIR + '/' + title + '.pdf'):
+        shutil.move(search,config.WORKING_DIR + '/')
+    else:
+        print "el archivo %s ya exite" %title
+        os.remove(search)
 
     return
