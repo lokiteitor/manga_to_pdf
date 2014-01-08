@@ -5,9 +5,7 @@
 
 import sys
 import getopt
-import FileZip
-import FileImage
-import MakePdf
+from Filemanga import FileZip,FileImage,MakePdf
 
 
 def main(argv):
