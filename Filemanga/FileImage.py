@@ -4,7 +4,7 @@
 # licenciado bajo GPL https://github.com/lokiteitor/manga_to_pdf/blob/master/LICENSE
 
 import Image
-import config
+import ManEnv
 import shutil
 import os
 import glob
@@ -17,7 +17,7 @@ def Manage_Image():
 
 	origin = os.getcwd()
 
-	os.chdir(config.DESCOMPRESSED_ZIP)
+	os.chdir(ManEnv.DESCOMPRESSED_ZIP)
 
 	members = os.listdir(os.getcwd())
 
@@ -26,10 +26,10 @@ def Manage_Image():
 		if os.path.isdir(i):
 			os.chdir(i)
 
-			dest = config.MODIFIED_IMAGES + '/' + i
+			dest = ManEnv.MODIFIED_IMAGES + '/' + i
 
 			if not os.path.exists(dest):
-				os.mkdir(config.MODIFIED_IMAGES + '/' + i)
+				os.mkdir(ManEnv.MODIFIED_IMAGES + '/' + i)
 
 
 			file_valid = glob.glob('*.jpg') + glob.glob('*.png') + glob.glob('*.jpeg')
@@ -39,7 +39,7 @@ def Manage_Image():
 			# futuros errores derivados de sus dependecias
 			Manipulate(file_valid,i)
 
-			os.chdir(config.DESCOMPRESSED_ZIP)
+			os.chdir(ManEnv.DESCOMPRESSED_ZIP)
 
 	os.chdir(origin)
 
@@ -64,16 +64,16 @@ def Manipulate(candidate,path):
 				if mod.size[0] > A4[0] or mod.size[1] > A4[1]:
 					ult = mod.resize((595,841))
 
-					ult.save(config.MODIFIED_IMAGES + '/' + path + '/' + i)
+					ult.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
 				else:
-					mod.save(config.MODIFIED_IMAGES + '/' + path + '/' + i)
+					mod.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
 
 			else:
 				mod = im.resize((595,841))
-				mod.save(config.MODIFIED_IMAGES + '/' + path + '/' + i)
+				mod.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
 
 		else:
-			shutil.move(i,config.MODIFIED_IMAGES + '/' + path + '/' + i)
+			shutil.move(i,ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
 
 	return
 

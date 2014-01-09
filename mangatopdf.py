@@ -5,7 +5,7 @@
 
 import sys
 import getopt
-from Filemanga import FileZip,FileImage,MakePdf
+from Filemanga import FileZip,FileImage,MakePdf,FileMan
 
 
 def main(argv):
@@ -27,6 +27,8 @@ def main(argv):
 	FileZip.CheckZip()
 	FileImage.Manage_Image()
 	MakePdf.Check()
+	FileMan.DeleteTrash()
+
 
 
 

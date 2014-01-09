@@ -7,12 +7,12 @@ import zipfile
 import zlib
 import os
 import glob
-import config
+import ManEnv
 import shutil
 
 
 
-def CheckZip(path=config.WORKING_DIR):
+def CheckZip(path=ManEnv.WORKING_DIR):
 	"""filtra los resultados y permite la ejucucion en cada uno de los objetivos"""
 
 	origin = os.getcwd()
@@ -38,13 +38,13 @@ def UnCompress(obj):
 
 	with zipfile.ZipFile(obj,'r') as zip:
 
-		path_final = (config.DESCOMPRESSED_ZIP + "/" + os.path.splitext(obj)[0] + '/')
+		path_final = (ManEnv.DESCOMPRESSED_ZIP + "/" + os.path.splitext(obj)[0] + '/')
 
 		check  = zip.namelist()
 
 		if zip.getinfo(check[0]).file_size == 0:
 
-			zip.extractall(config.DESCOMPRESSED_ZIP + '/')
+			zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
 
 		else:
 
@@ -52,7 +52,7 @@ def UnCompress(obj):
 
 	# error 008: mover este procedimento a nuevo modulo mencionado en FileImage		
 
-	shutil.move(obj,config.LIBRARY_ZIP + '/')
+	shutil.move(obj,ManEnv.LIBRARY_ZIP + '/')
 
 	return
 

@@ -12,11 +12,6 @@ setup(
     , long_description=open('README.txt').read()
     , scripts=['mangatopdf.py']
     , packages=['Filemanga']
-    , package_data = {'pymunk': ['chipmunk.dll'
-                                , 'chipmunk64.dll'
-                                , 'libchipmunk.so'
-                                , 'libchipmunk64.so'
-                                , 'libchipmunk.dylib']}
     , license='GPL'
 
     )

@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.7
 
-import config
+import ManEnv
 import os
 import shutil
 from reportlab.pdfgen import canvas
@@ -9,11 +9,11 @@ from reportlab.pdfgen import canvas
 
 def Check(title=None):
 
-    files = os.listdir(config.MODIFIED_IMAGES)
+    files = os.listdir(ManEnv.MODIFIED_IMAGES)
 
     for i in files:
 
-        path = config.MODIFIED_IMAGES + '/' + i
+        path = ManEnv.MODIFIED_IMAGES + '/' + i
 
         if os.path.isdir(path):
             Make_Document(os.listdir(path),path + '/',i)
@@ -37,8 +37,8 @@ def Make_Document(files,path,title):
 
     # error 008
 
-    if not os.path.exists(config.WORKING_DIR + '/' + title + '.pdf'):
-        shutil.move(search,config.WORKING_DIR + '/')
+    if not os.path.exists(ManEnv.WORKING_DIR + '/' + title + '.pdf'):
+        shutil.move(search,ManEnv.WORKING_DIR + '/')
     else:
         print "el archivo %s ya exite" %title
         os.remove(search)
