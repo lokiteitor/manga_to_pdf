@@ -9,7 +9,7 @@ import os
 import glob
 import ManEnv
 import shutil
-
+import FileMan
 
 
 def CheckZip(path=ManEnv.WORKING_DIR):
@@ -19,11 +19,21 @@ def CheckZip(path=ManEnv.WORKING_DIR):
 	os.chdir(path)
 	search = glob.glob('*.zip')
 
+	if len(search) == 0:
+		print "no se han encontrado archivos .zip en manga_to_pdf porfavor ingrese los ficheros a descomprimir en manga_to_pdf"
+
+
+	elif len(search) > 0:
+
+		print "se han encontrado los siguientes archivos listos para ser descomprimidos"
+		for i in search:
+			print i
+
 	for i in search:
 		
 		if zipfile.is_zipfile(i):
 
-
+			print "descomprimiendo el archivo " + i
 			UnCompress(i)
 
 	os.chdir(origin)
@@ -38,21 +48,37 @@ def UnCompress(obj):
 
 	with zipfile.ZipFile(obj,'r') as zip:
 
+
 		path_final = (ManEnv.DESCOMPRESSED_ZIP + "/" + os.path.splitext(obj)[0] + '/')
 
 		check  = zip.namelist()
 
 		if zip.getinfo(check[0]).file_size == 0:
 
-			zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+			valid = FileMan.ComparateImagePdf(os.path.split(check[0])[0])
+
+			if valid[0] or valid[0] == valid[1] == False:
+
+				zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+			else:
+
+				zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+
+				os.rename(ManEnv.DESCOMPRESSED_ZIP + '/' + check[0],valid[2])
 
 		else:
 
 			zip.extractall(path_final)
 
-	# error 008: mover este procedimento a nuevo modulo mencionado en FileImage		
+	# error 008: mover este procedimento a nuevo modulo mencionado en FileImage	
 
-	shutil.move(obj,ManEnv.LIBRARY_ZIP + '/')
+	if os.path.exists(ManEnv.LIBRARY_ZIP + '/' + obj):
+		print "el archivo ya existe en la libreria zip"
+		os.remove(obj)
+	else:	
+
+		shutil.move(obj,ManEnv.LIBRARY_ZIP + '/')
+		print "se ha reubicado el archivo %s a /library/zip" %obj
 
 	return
 

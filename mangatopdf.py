@@ -23,14 +23,13 @@ def main(argv):
 		elif opt in ("-t" , "--title"):
 			pass
 
+	print "iniciando proceso"
 
+	FileMan.CheckPdfExist()
 	FileZip.CheckZip()
 	FileImage.Manage_Image()
 	MakePdf.Check()
 	FileMan.DeleteTrash()
-
-
-
 
 
 
