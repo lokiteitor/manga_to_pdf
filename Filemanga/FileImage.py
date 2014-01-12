@@ -34,6 +34,8 @@ def Manage_Image():
 
 			file_valid = glob.glob('*.jpg') + glob.glob('*.png') + glob.glob('*.jpeg')
 
+			print "los siguentes archivos estan listos para ser verificados" + str(file_valid)
+
 
 			# error 008: las funciones embebidas en otras podrian causar
 			# futuros errores derivados de sus dependecias
@@ -57,6 +59,7 @@ def Manipulate(candidate,path):
 		im = Image.open(ubi)
 
 		if A4[0] < im.size[0] or A4[1] < im.size[1]:
+			print "modificando el archivo %s" %i
 			if im.size[0] > im.size[1]:
 
 				mod = im.rotate(90)
@@ -76,15 +79,4 @@ def Manipulate(candidate,path):
 			shutil.move(i,ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
 
 	return
-
-
-# error 007: implementar funcion encargada de limpiar
-# se ha decidido que esta implementacion deberia de correr a cargo de un
-# modulo independiente que tenga la funcion de gestionar pre y post uso de los
-# las archivos en cuestion
-
-
-
-
-
 
