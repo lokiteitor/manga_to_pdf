@@ -7,6 +7,7 @@ import os
 import sys
 import glob
 import ManEnv
+import FileImage
 
 
 def DeleteTrash(path=ManEnv.TMP):
@@ -105,3 +106,15 @@ def ComparateImagePdf(dirname):
 
     os.chdir(origin)
     return checklist
+
+
+def CheckImgDir():
+    origin = os.getcwd()
+    os.chdir(ManEnv.WORKING_DIR)
+
+    for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
+        for name in dirs:
+            if not os.path.islink(name) and name != "zip" and "library":
+                FileImage.Manage_Image(os.path.join(root,name))
+
+    os.chdir(origin)

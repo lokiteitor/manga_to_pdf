@@ -11,13 +11,13 @@ import glob
 from reportlab.lib.pagesizes import A4
 
 
-def Manage_Image():
+def Manage_Image(path = ManEnv.DESCOMPRESSED_ZIP):
 	"""proporciona un filtro de archivos y directorios candidatos para el 
 	posterior manejo por la funcion Manipulate"""
 
 	origin = os.getcwd()
 
-	os.chdir(ManEnv.DESCOMPRESSED_ZIP)
+	os.chdir(path)
 
 	members = os.listdir(os.getcwd())
 
@@ -39,9 +39,10 @@ def Manage_Image():
 
 			# error 008: las funciones embebidas en otras podrian causar
 			# futuros errores derivados de sus dependecias
-			Manipulate(file_valid,i)
+			if len(file_valid) > 0:
+				Manipulate(file_valid,i)
 
-			os.chdir(ManEnv.DESCOMPRESSED_ZIP)
+			os.chdir(path)
 
 	os.chdir(origin)
 
