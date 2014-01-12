@@ -1,5 +1,8 @@
 #!/usr/bin/env python2.7
 
+#Copyright (C) 2014  David Delgado Hernandez 
+# licenciado bajo GPL https://github.com/lokiteitor/manga_to_pdf/blob/master/LICENSE
+
 import os
 import sys
 import glob
