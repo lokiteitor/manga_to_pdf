@@ -35,6 +35,15 @@ def CheckPdfExist():
 
     posibility = glob.glob('*.zip')
 
+    for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
+        for name in dirs:
+            if not os.path.islink(name):
+                if not name == 'zip':
+                    if not name == 'library':
+                        posibility.append(name)
+
+
+
 
     for i in posibility:
 
@@ -114,7 +123,12 @@ def CheckImgDir():
 
     for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
         for name in dirs:
-            if not os.path.islink(name) and name != "zip" and "library":
-                FileImage.Manage_Image(os.path.join(root,name))
+            if not os.path.islink(name):
+                if not name == 'zip':
+                    if not name == 'library':
+                        FileImage.Manage_Image(os.path.join(root,name))
 
     os.chdir(origin)
+
+
+

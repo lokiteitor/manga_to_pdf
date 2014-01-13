@@ -26,6 +26,8 @@ def main(argv):
 	print "iniciando proceso"
 
 	FileMan.CheckPdfExist()
+
+	FileMan.CheckImgDir()
 	FileZip.CheckZip()
 	FileImage.Manage_Image()
 	MakePdf.Check()
