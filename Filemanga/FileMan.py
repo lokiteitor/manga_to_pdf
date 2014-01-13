@@ -8,6 +8,7 @@ import sys
 import glob
 import ManEnv
 import FileImage
+import shutil
 
 
 def DeleteTrash(path=ManEnv.TMP):
@@ -126,7 +127,10 @@ def CheckImgDir():
             if not os.path.islink(name):
                 if not name == 'zip':
                     if not name == 'library':
-                        FileImage.Manage_Image(os.path.join(root,name))
+                        if not name == 'directory':
+                            FileImage.Manage_Image(os.path.join(root,name))
+                            if not os.path.join(root,name) == ManEnv.IMGDIR:
+                                shutil.move(os.path.join(root,name),ManEnv.IMGDIR + '/' + name)
 
     os.chdir(origin)
 
