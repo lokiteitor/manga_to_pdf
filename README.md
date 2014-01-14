@@ -3,6 +3,11 @@ manga_to_pdf
 
 simple programa de administracion de archivos de imagen a pdf totalmente autonomo
 
+Descargas:
+---------
+la ultima version disponible se puede obtener en:
+https://github.com/lokiteitor/manga_to_pdf/releases/tag/0718d391c934
+
 acerca de:
 ----------
 
