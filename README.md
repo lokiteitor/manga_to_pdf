@@ -1,3 +1,10 @@
+Descarga
+--------
+para obtener la ultima version de manga to pdf acceder a:
+
+https://github.com/lokiteitor/manga_to_pdf/releases/
+
+
 acerca de:
 ----------
 
