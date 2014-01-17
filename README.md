@@ -1,13 +1,3 @@
-manga_to_pdf
-============
-
-simple programa de administracion de archivos de imagen a pdf totalmente autonomo
-
-Descargas:
----------
-la ultima version disponible se puede obtener en:
-https://github.com/lokiteitor/manga_to_pdf/releases/tag/0718d391c934
-
 acerca de:
 ----------
 
@@ -31,7 +21,7 @@ Instalacion:
 las depencias necesarias para el funcionamiento de este programa son:
 
 reportlab
-pil
+pil o pillow dependiendo de tu distro (pil = debian/ubuntu, pillow = archlinux )
 python2.7
 
 para poder instalarlo:
@@ -44,6 +34,7 @@ apt-get install python-imaging
 En archlinux:
 
 python2-reportlab
+python2-pillow
 
 
 Una vez satisfechas estas dependencias solo debes de ejecutar en el directorio
