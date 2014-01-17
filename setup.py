@@ -1,7 +1,19 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/python2.7
 from distutils.core import setup
 
 import os
+import re
+import shutil
+
+
+"""definimos el tipo de distro y su respectivo modulo FileImage que abra de utilizar"""
+
+distro = os.uname()[2]
+
+if re.search("ARCH",distro):
+    os.remove('Filemanga/FileImage.py')
+    shutil.move('parches/FileImage.py','Filemanga/')
+
 
 """prepara el area de trabajo en cada llamada"""
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/python2.7
 
 #Copyright (C) 2014  David Delgado Hernandez 
 # This program is free software: you can redistribute it and/or modify
