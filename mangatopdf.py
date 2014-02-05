@@ -35,13 +35,27 @@ def main(argv):
 
 	print "iniciando proceso"
 
+
+	# esta funcion de momento es inutil debido a la reimplementacion 
+	# por lo que se redisenara de acuerdo a las nuevas capacidades de la 
+	# reimplementacion
+
 	FileMan.CheckPdfExist()
 
 	FileMan.CheckImgDir()
-	FileZip.CheckZip()
+
+
+	des = FileZip.Descompress()
+
+	print des.get_Type()
+
+	des.UnCompressZip()
+	des.MoveToLibrary()
+
 	FileImage.Manage_Image()
+
 	MakePdf.Check()
-	FileMan.DeleteTrash()
+
 
 
 

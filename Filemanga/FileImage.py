@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import Image
+from PIL import Image #cambiar esto por pil
 import ManEnv
 import shutil
 import os

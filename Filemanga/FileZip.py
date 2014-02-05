@@ -13,82 +13,79 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import zipfile
-import zlib
+
 import os
-import glob
-import ManEnv
+
 import shutil
 import FileMan
 
-
-def CheckZip(path=ManEnv.WORKING_DIR):
-	"""filtra los resultados y permite la ejucucion en cada uno de los objetivos"""
-
-	origin = os.getcwd()
-	os.chdir(path)
-	search = glob.glob('*.zip')
-
-	if len(search) == 0:
-		print "no se han encontrado archivos .zip en manga_to_pdf porfavor ingrese los ficheros a descomprimir en manga_to_pdf"
+import ManEnv
 
 
-	elif len(search) > 0:
-
-		print "se han encontrado los siguientes archivos listos para ser descomprimidos"
-		for i in search:
-			print i
-
-	for i in search:
-		
-		if zipfile.is_zipfile(i):
-
-			print "descomprimiendo el archivo " + i
-			UnCompress(i)
-
-	os.chdir(origin)
-
-	return
+#debe de crearse una clase encargada de buscar los archivos candidatos de cualquier tipo
 
 
 
-def UnCompress(obj):
-	"""descomprime los archivos y crea la carpeta destino si es necesario"""
+#------------------------------------------------------------------------------
+class Descompress():
+	"""encargada de todas las tareas de descompresion de ficheros dependiendo
+	del tipo de estos """
+	def __init__(self,path,des=ManEnv.LIBRARY_ZIP):
+		self.pathOriginal = path
+		self.destinozip = des + os.path.splitext(path)[0] + '/'
+		self.destinyImg = ManEnv.DESCOMPRESSED_ZIP + "/" + os.path.splitext(os.path.basename(self.pathOriginal))[0] + '/'
+
+		self.name = os.path.basename(path)
+		self.type = ""
 
 
-	with zipfile.ZipFile(obj,'r') as zip:
+	def get_Type(self):
+
+		if zipfile.is_zipfile(self.pathOriginal):
+			self.type = "zip"
+
+		elif os.path.splitext(self.pathOriginal)[1] == ".rar":
+
+			self.type = "rar"
+			# ejecutar comando de descomprecion de rar
+
+		return self.type
+
+	def Uncompress(self):
+
+		if self.type == "zip":
+
+			self.UnCompressZip()
+
+	def UnCompressZip(self):
 
 
-		path_final = (ManEnv.DESCOMPRESSED_ZIP + "/" + os.path.splitext(obj)[0] + '/')
+		with zipfile.ZipFile(self.pathOriginal,'r') as zip:
 
-		check  = zip.namelist()
+			check  = zip.namelist()
 
-		if zip.getinfo(check[0]).file_size == 0:
+			if zip.getinfo(check[0]).file_size == 0:
 
-			valid = FileMan.ComparateImagePdf(os.path.split(check[0])[0])
+				valid = FileMan.ComparateImagePdf(os.path.split(check[0])[0]) #atencion a esta funcion al traducir
 
-			if valid[0] or valid[0] == valid[1] == False:
+				if valid[0] or valid[0] == valid[1] == False:
 
-				zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+					zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+				else:
+
+					zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+
+					os.rename(ManEnv.DESCOMPRESSED_ZIP + '/' + check[0],valid[2])
+
 			else:
 
-				zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+				zip.extractall(self.destinyImg)
 
-				os.rename(ManEnv.DESCOMPRESSED_ZIP + '/' + check[0],valid[2])
-
-		else:
-
-			zip.extractall(path_final)
-
-	# error 008: mover este procedimento a nuevo modulo mencionado en FileImage	
-
-	if os.path.exists(ManEnv.LIBRARY_ZIP + '/' + obj):
-		print "el archivo ya existe en la libreria zip"
-		os.remove(obj)
-	else:	
-
-		shutil.move(obj,ManEnv.LIBRARY_ZIP + '/')
-		print "se ha reubicado el archivo %s a /library/zip" %obj
-
-	return
-
-# error 006: implementar comprecion de manga una vez implementados
+	def MoveToLibrary(self):
+		# este metodo no guarda el archivo en el lugar correcto
+		if os.path.exists(ManEnv.LIBRARY_ZIP + '/' + self.name):
+			print "el archivo ya existe en la libreria zip"
+			os.remove(self.pathOriginal)
+		else:	
+			shutil.move(self.pathOriginal,ManEnv.LIBRARY_ZIP + '/')
+			print "se ha reubicado el archivo %s a /library/zip" %self.name
