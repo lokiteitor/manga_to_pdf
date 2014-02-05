@@ -8,3 +8,6 @@ comprimir luego de cierto limite
 
 ** he optado por reconstruir o reorganizar todos los modulos para una mayor claridad
 flexibilidad del programa
+
+
+*FileZip.DesCompress.__init__ devuelve metodo y no lista

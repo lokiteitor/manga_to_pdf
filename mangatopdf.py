@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import sys
 import getopt
-from Filemanga import FileZip,FileImage,MakePdf,FileMan
+from Filemanga import FileZip,FileImage,MakePdf,FileMan,Mensaje
 
 
 def main(argv):
@@ -40,25 +40,18 @@ def main(argv):
 	# por lo que se redisenara de acuerdo a las nuevas capacidades de la 
 	# reimplementacion
 
-	FileMan.CheckPdfExist()
 
-	FileMan.CheckImgDir()
+	mensajes = Mensaje.Mensaje()
 
+	maneger = FileMan.Manage()
 
-	des = FileZip.Descompress('/home/lokiteitor/Documentos/Manga_to_pdf/[SnTF] Its Not My Fault That Im Not Popular! 28 [ESP].zip')
+	dsc = FileZip.Descompress(mensajes,maneger.SearchCompress)
 
-	print des.get_Type()
+	maneger.DeleteTrash()
 
-	des.UnCompressZip()
-	des.MoveToLibrary()
+	maneger.CheckPdfExist(mensajes)
 
-	img = FileImage.ManageImg()
-
-	img.Manipulate_Img()
-
-	pdf = MakePdf.MakePdf()
-
-	pdf.Check()
+	dsc.UnComMult()
 
 
 

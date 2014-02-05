@@ -23,6 +23,9 @@ import shutil
 
 def ComparateImagePdf(dirname):
 
+    # debido a la depencia de otro modulo de esta funcion esta aun no sera 
+    # modificada
+
     origin = os.getcwd()
     os.chdir(ManEnv.WORKING_DIR)
 
@@ -125,3 +128,14 @@ class Manage():
             if self.pdf.count(name):
                 # pasamos los errores a otro objeto que los maneje(Mensaje.Mensaje)
                 mensaje.ExistPdf(name,i)
+
+    def SearchCompress(self):
+
+        com = glob.glob("*.zip") + glob.glob("*.rar")
+
+        path = []
+
+        for i in com:
+            path.append(os.path.abspath(i))
+
+        return path

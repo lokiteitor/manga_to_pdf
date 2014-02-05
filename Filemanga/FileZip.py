@@ -13,54 +13,52 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import zipfile
-
 import os
-
 import shutil
-import FileMan
 
+import FileMan
 import ManEnv
 
-
-#debe de crearse una clase encargada de buscar los archivos candidatos de cualquier tipo
-
-
-
-#------------------------------------------------------------------------------
 class Descompress():
-	"""encargada de todas las tareas de descompresion de ficheros dependiendo
-	del tipo de estos """
-	def __init__(self,path,des=ManEnv.LIBRARY_ZIP):
-		self.pathOriginal = path
-		self.destinozip = des + os.path.splitext(path)[0] + '/'
-		self.destinyImg = ManEnv.DESCOMPRESSED_ZIP + "/" + os.path.splitext(os.path.basename(self.pathOriginal))[0] + '/'
+	"""encargada de descomprimir cualquier archivo comprimido sin importar el tipo
+	asi como tambien comprimir archivos y administrarlos"""
+	def __init__(self,mensaje,lst):
 
-		self.name = os.path.basename(path)
-		self.type = ""
+		#retorno metodo en lugar de lista
+
+		self.valid = mensaje.getValidList(lst)
+
+		print self.valid
 
 
-	def get_Type(self):
+	def UnComMult(self):
 
-		if zipfile.is_zipfile(self.pathOriginal):
+
+		for i in self.valid:
+
+			tp = self.getType(i)
+
+			if tp == "zip":
+
+				self.UnCompressZip(i)
+				name = os.path.basename(i)
+				self.MoveToLibrary(i,name)
+
+
+	def getType(self,archive):
+		
+		if zipfile.is_zipfile(archive):
 			self.type = "zip"
 
-		elif os.path.splitext(self.pathOriginal)[1] == ".rar":
+		elif os.path.splitext(archive)[1] == ".rar":
 
-			self.type = "rar"
-			# ejecutar comando de descomprecion de rar
-
-		return self.type
-
-	def Uncompress(self):
-
-		if self.type == "zip":
-
-			self.UnCompressZip()
-
-	def UnCompressZip(self):
+			self.type = "rar"		
 
 
-		with zipfile.ZipFile(self.pathOriginal,'r') as zip:
+	def UnCompressZip(self,zp):
+		
+
+		with zipfile.ZipFile(zp,'r') as zip:
 
 			check  = zip.namelist()
 
@@ -78,14 +76,21 @@ class Descompress():
 					os.rename(ManEnv.DESCOMPRESSED_ZIP + '/' + check[0],valid[2])
 
 			else:
+				destinyImg = ManEnv.DESCOMPRESSED_ZIP + "/" + os.path.splitext(os.path.basename(zp))[0] + '/'
 
-				zip.extractall(self.destinyImg)
+				zip.extractall(destinyImg)
 
-	def MoveToLibrary(self):
+
+	def MoveToLibrary(self,zp,name):
 		# este metodo no guarda el archivo en el lugar correcto
-		if os.path.exists(ManEnv.LIBRARY_ZIP + '/' + self.name):
+
+
+		if os.path.exists(ManEnv.LIBRARY_ZIP + '/' + name):
+			
 			print "el archivo ya existe en la libreria zip"
-			os.remove(self.pathOriginal)
+			os.remove(zp)
+
 		else:	
-			shutil.move(self.pathOriginal,ManEnv.LIBRARY_ZIP + '/')
-			print "se ha reubicado el archivo %s a /library/zip" %self.name
+			
+			shutil.move(zp,ManEnv.LIBRARY_ZIP + '/')
+			print "se ha reubicado el archivo %s a /library/zip" %name
