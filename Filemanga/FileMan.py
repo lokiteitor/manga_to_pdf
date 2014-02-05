@@ -14,81 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import os
-import sys
+
 import glob
 import ManEnv
 import FileImage
 import shutil
-
-
-def DeleteTrash(path=ManEnv.TMP):
-
-    for root, dirs, files in os.walk(path, topdown=False):
-        for name in files:
-            obj =  os.path.join(root, name)
-            os.remove(obj)
-        for name in dirs:
-            if not os.path.islink(name):
-                os.rmdir(os.path.join(root, name))
-            else:
-                problem = os.path.join(root,name)
-                print "se ha encontrado un enlace simbolico en el directorio se recomienda que revice en archivo %s" %problem
-                print "ubicado en %s" %path
-
-
-def CheckPdfExist():
-
-    origin = os.getcwd()
-
-    os.chdir(ManEnv.WORKING_DIR)
-
-    search = glob.glob('*.pdf')
-
-    posibility = glob.glob('*.zip')
-
-    for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
-        for name in dirs:
-            if not os.path.islink(name):
-                if not name == 'zip':
-                    if not name == 'library':
-                        posibility.append(name)
-
-
-    for i in posibility:
-
-
-        name = os.path.splitext(i)[0]
-        name = name + ".pdf"
-
-        if search.count(name):
-            print "el archivo %s ya existe desea sobrescribirlo?" %name
-            print "(s/n)"
-
-            res = raw_input()
-
-            if res == "s":
-                continue
-
-            elif res == "n":
-                print "deseas renombrar el archivo %s" %i
-                print "(s/n)"
-                ren = raw_input()
-
-                if ren == "s":
-                    print "introduce el nuevo nombre"
-                    nom = raw_input()
-                    os.rename(i,nom + '.zip')
-
-                elif ren == "n":
-                    sys.exit()
-
-                else:
-                    pass
-
-            else:
-                pass
-
-    os.chdir(origin)
 
 
 def ComparateImagePdf(dirname):
@@ -144,3 +74,54 @@ def CheckImgDir():
     os.chdir(origin)
 
 
+
+class Manage():
+    """clase principal encargada de todas las tareas de administracion de archivos"""
+    def __init__(self):
+        self.tmp = ManEnv.TMP
+        self.origin = os.getcwd()
+
+        os.chdir(ManEnv.WORKING_DIR)
+        self.pdf = glob.glob("*.pdf")
+
+
+    def DeleteTrash(self):
+        """metodo encargado de la recoleccion de basurae los archivos temporales"""
+        for root, dirs, files in os.walk(self.tmp, topdown=False):
+            for name in files:
+                obj =  os.path.join(root, name)
+                os.remove(obj)
+            for name in dirs:
+                if not os.path.islink(name):
+                    os.rmdir(os.path.join(root, name))
+                else:
+                    problem = os.path.join(root,name)
+                    print "se ha encontrado un enlace simbolico en el directorio \
+                    se recomienda que revice en archivo %s" %problem
+                    print "ubicado en %s" %self.tmp
+
+
+
+    def CheckPdfExist(self,mensaje):
+        """metodo que se asegura de que los archivos candidatos no se repitan
+         con aquellos existentes"""
+
+        # analizamos las posibilidades en base a los archivos candidato
+        posibility = glob.glob("*.zip")
+
+        for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
+            for name in dirs:
+                if not os.path.islink(name):
+                    if not name == 'zip':
+                        if not name == 'library':
+                            posibility.append(name)
+
+        # comparamos los archivos candidato con los pdf
+        for i in posibility:
+
+            name = os.path.splitext(i)[0]
+            name = name + ".pdf"
+
+            if self.pdf.count(name):
+                # pasamos los errores a otro objeto que los maneje(Mensaje.Mensaje)
+                mensaje.ExistPdf(name,i)
