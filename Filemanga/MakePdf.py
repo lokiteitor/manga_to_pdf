@@ -19,53 +19,51 @@ import os
 import shutil
 from reportlab.pdfgen import canvas
 
+class MakePdf():
+    """construye el pdf"""
+    def __init__(self):
+        pass
+
+    def Check(self):
+        self.files = os.listdir(ManEnv.MODIFIED_IMAGES)
+        
+        for i in self.files:
+            print "convirtiendo el archivo %s en pdf" %i
+
+            self.path = ManEnv.MODIFIED_IMAGES + '/' + i
+
+            self.title = i
+
+            if os.path.isdir(self.path):
+
+                self.listimg = os.listdir(self.path)
+
+                self.Make_Document(self.path+'/')
+
+    def Make_Document(self,path):
+
+        Document = canvas.Canvas(self.title + '.pdf')
+        self.listimg.sort()
+
+        for i in self.listimg:
+            print "agregando %s al pdf" %i
+            image = path + i
+            Document.drawImage(image,0,0)
+            Document.showPage()
+
+        Document.save()
+        #retorna la ruta al documento generado
+        search = os.getcwd() + '/' + self.title + '.pdf'
 
 
+        # error 008
 
-def Check(title=None):
+        if not os.path.exists(ManEnv.WORKING_DIR + '/' + self.title + '.pdf'):
+            shutil.move(search,ManEnv.WORKING_DIR + '/')
+            print "se ha creado el archivo %s en el directorio de trabajo" %self.title
 
-    files = os.listdir(ManEnv.MODIFIED_IMAGES)
+            print "tareas finalizadas satisfactoriamente"
 
-
-    for i in files:
-        print "convirtiendo el archivo %s en pdf" %i
-
-        path = ManEnv.MODIFIED_IMAGES + '/' + i
-
-        if os.path.isdir(path):
-
-
-            Make_Document(os.listdir(path),path + '/',i)
-
-    return
-
-
-def Make_Document(files,path,title):
-
-    Document = canvas.Canvas(title + '.pdf')
-    files.sort()
-
-    for i in files:
-        print "agregando %s al pdf" %i
-        image = path + i
-        Document.drawImage(image,0,0)
-        Document.showPage()
-
-    Document.save()
-    #retorna la ruta al documento generado
-    search = os.getcwd() + '/' + title + '.pdf'
-
-
-    # error 008
-
-    if not os.path.exists(ManEnv.WORKING_DIR + '/' + title + '.pdf'):
-        shutil.move(search,ManEnv.WORKING_DIR + '/')
-        print "se ha creado el archivo %s en el directorio de trabajo" %title
-
-        print "tareas finalizadas satisfactoriamente"
-
-    else:
-        print "el archivo %s ya exite" %title
-        os.remove(search)
-
-    return
+        else:
+            print "el archivo %s ya exite" %self.title
+            os.remove(search)

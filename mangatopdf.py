@@ -45,16 +45,22 @@ def main(argv):
 	FileMan.CheckImgDir()
 
 
-	des = FileZip.Descompress()
+	des = FileZip.Descompress('/home/lokiteitor/Documentos/Manga_to_pdf/[SnTF] Its Not My Fault That Im Not Popular! 28 [ESP].zip')
 
 	print des.get_Type()
 
 	des.UnCompressZip()
 	des.MoveToLibrary()
 
-	FileImage.Manage_Image()
+	img = FileImage.ManageImg()
 
-	MakePdf.Check()
+	img.Manipulate_Img()
+
+	pdf = MakePdf.MakePdf()
+
+	pdf.Check()
+
+
 
 
 

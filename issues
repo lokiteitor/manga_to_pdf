@@ -5,3 +5,6 @@ comprimir luego de cierto limite
 
 *metodo MoveToLibrary de FileZip no mueve los archivos al lugar correcto
 *crear clase que busque de forma automatica los archivos candidatos de cualquier tipo
+
+** he optado por reconstruir o reorganizar todos los modulos para una mayor claridad
+flexibilidad del programa

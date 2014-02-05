@@ -21,74 +21,72 @@ import os
 import glob
 from reportlab.lib.pagesizes import A4
 
+class ManageImg():
+	"""manipulacion de imagenes"""
+	def __init__(self,path=ManEnv.DESCOMPRESSED_ZIP):
+		
+		self.path = path
+		self.origin = os.getcwd()
 
-def Manage_Image(path = ManEnv.DESCOMPRESSED_ZIP):
-	"""proporciona un filtro de archivos y directorios candidatos para el 
-	posterior manejo por la funcion Manipulate"""
+		self.cwd = ''
 
-	origin = os.getcwd()
+		os.chdir(self.path)
 
-	os.chdir(path)
+	def Manipulate_Img(self):
+		"""proporciona un filtro de archivos y directorios candidatos para el 
+		posterior manejo por la funcion Manipulate"""
 
-	members = os.listdir(os.getcwd())
+		self.members = os.listdir(os.getcwd())
 
-	for i in members:
+		for i in self.members:
 
-		if os.path.isdir(i):
-			os.chdir(i)
+			if os.path.isdir(i):
+				os.chdir(i)
 
-			dest = ManEnv.MODIFIED_IMAGES + '/' + i
+				self.cwd = os.getcwd()
 
-			if not os.path.exists(dest):
-				os.mkdir(ManEnv.MODIFIED_IMAGES + '/' + i)
+				dest = ManEnv.MODIFIED_IMAGES + '/' + i
 
-
-			file_valid = glob.glob('*.jpg') + glob.glob('*.png') + glob.glob('*.jpeg')
-
-			print "los siguentes archivos estan listos para ser verificados" + str(file_valid)
-
-
-			# error 008: las funciones embebidas en otras podrian causar
-			# futuros errores derivados de sus dependecias
-			if len(file_valid) > 0:
-				Manipulate(file_valid,i)
-
-			os.chdir(path)
-
-	os.chdir(origin)
-
-	return
+				if not os.path.exists(dest):
+					os.mkdir(ManEnv.MODIFIED_IMAGES + '/' + i)
 
 
-def Manipulate(candidate,path):
-	"""manipula las imagenes de tal forma que puedan caber en un documento pdf
-	en caso de que no las redimensiona y las reemplaza 
-	acepta como arguementos un directorio y una lista de archivos que solo
-	debe contener imagenes"""
+				self.file_valid = glob.glob('*.jpg') + glob.glob('*.png') + glob.glob('*.jpeg')
 
-	for i in candidate:
-		ubi = os.getcwd() + '/' + i
-		im = Image.open(ubi)
+				if len(self.file_valid) > 0:
+					print "los siguentes archivos estan listos para ser verificados" + str(self.file_valid)
 
-		if A4[0] < im.size[0] or A4[1] < im.size[1]:
-			print "modificando el archivo %s" %i
-			if im.size[0] > im.size[1]:
+					self.Manipulate()
+					os.chdir(self.path)
 
-				mod = im.rotate(90)
+		os.chdir(self.origin)
 
-				if mod.size[0] > A4[0] or mod.size[1] > A4[1]:
-					ult = mod.resize((595,841))
+		def Manipulate(self):
+			"""manipula las imagenes de tal forma que puedan caber en un documento pdf
+			en caso de que no las redimensiona y las reemplaza 
+			acepta como arguementos un directorio y una lista de archivos que solo
+			debe contener imagenes"""
 
-					ult.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
+			for i in self.file_valid:
+				ubi = self.cwd + '/' + i
+				im = Image.open(ubi)
+
+				if A4[0] < im.size[0] or A4[1] < im.size[1]:
+					print "modificando el archivo %s" %i
+					if im.size[0] > im.size[1]:
+
+						mod = im.rotate(90)
+
+						if mod.size[0] > A4[0] or mod.size[1] > A4[1]:
+							ult = mod.resize((595,841))
+
+							ult.save(ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)
+						else:
+							mod.save(ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)
+
+					else:
+						mod = im.resize((595,841))
+						mod.save(ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)
+
 				else:
-					mod.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
-
-			else:
-				mod = im.resize((595,841))
-				mod.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
-
-		else:
-			shutil.move(i,ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
-
-	return
-
+					shutil.move(i,ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)

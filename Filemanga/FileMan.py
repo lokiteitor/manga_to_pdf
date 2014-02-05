@@ -54,8 +54,6 @@ def CheckPdfExist():
                         posibility.append(name)
 
 
-
-
     for i in posibility:
 
 
@@ -138,11 +136,11 @@ def CheckImgDir():
                 if not name == 'zip':
                     if not name == 'library':
                         if not name == 'directory':
-                            FileImage.Manage_Image(os.path.join(root,name))
+                            f = FileImage.ManageImg(os.path.join(root,name))
+                            f.Manipulate_Img()
                             if not os.path.join(root,name) == ManEnv.IMGDIR:
                                 shutil.move(os.path.join(root,name),ManEnv.IMGDIR + '/' + name)
 
     os.chdir(origin)
-
 
 
