@@ -41,7 +41,6 @@ class Mensaje():
         return self.blacklist
 
     def getValidList(self,lst):
-        print "aqui"
 
         if len(self.blacklist) > 0:
 

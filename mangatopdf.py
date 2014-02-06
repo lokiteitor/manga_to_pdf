@@ -45,13 +45,12 @@ def main(argv):
 
 	maneger = FileMan.Manage()
 
-	dsc = FileZip.Descompress(mensajes,maneger.SearchCompress)
+	dsc = FileZip.Descompress(mensajes)
 
 	maneger.DeleteTrash()
 
 	maneger.CheckPdfExist(mensajes)
-
-	dsc.UnComMult()
+	dsc.UnComMult(maneger.SearchCompress())
 
 
 

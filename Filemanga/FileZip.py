@@ -22,17 +22,13 @@ import ManEnv
 class Descompress():
 	"""encargada de descomprimir cualquier archivo comprimido sin importar el tipo
 	asi como tambien comprimir archivos y administrarlos"""
-	def __init__(self,mensaje,lst):
+	def __init__(self,mensaje):
 
-		#retorno metodo en lugar de lista
+		self.mensaje = mensaje
 
-		self.valid = mensaje.getValidList(lst)
+	def UnComMult(self,lst):
 
-		print self.valid
-
-
-	def UnComMult(self):
-
+		self.valid = self.mensaje.getValidList(lst)
 
 		for i in self.valid:
 
@@ -46,13 +42,19 @@ class Descompress():
 
 
 	def getType(self,archive):
+
 		
 		if zipfile.is_zipfile(archive):
-			self.type = "zip"
+			typ = "zip"
 
 		elif os.path.splitext(archive)[1] == ".rar":
 
-			self.type = "rar"		
+			typ = "rar"
+
+		else:
+			print "archivo no soportado"
+
+		return 	typ
 
 
 	def UnCompressZip(self,zp):
