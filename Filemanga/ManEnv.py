@@ -25,5 +25,5 @@ if not os.path.exists(WORKING_DIR):
 	os.mkdir(WORKING_DIR)
 
 for i in l_path:
-	if not os.path.exists(i) and not os.path.isdir(i):
+	if not os.path.exists(i):
 		os.makedirs(i)

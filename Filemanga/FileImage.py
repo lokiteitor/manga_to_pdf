@@ -16,77 +16,83 @@
 
 from PIL import Image #cambiar esto por pil
 import ManEnv
-import shutil
 import os
 import glob
 from reportlab.lib.pagesizes import A4
 
-class ManageImg():
-	"""manipulacion de imagenes"""
-	def __init__(self,path=ManEnv.DESCOMPRESSED_ZIP):
-		
-		self.path = path
+class ManipulateImg():
+	def __init__(self,mensaje):
 		self.origin = os.getcwd()
+		self.mensaje = mensaje
 
-		self.cwd = ''
+		os.chdir(ManEnv.DESCOMPRESSED_ZIP)
 
-		os.chdir(self.path)
+	def manipulate(self):
+		self.get_directory
 
-	def Manipulate_Img(self):
-		"""proporciona un filtro de archivos y directorios candidatos para el 
-		posterior manejo por la funcion Manipulate"""
 
-		self.members = os.listdir(os.getcwd())
+	def get_directory(self):
 
-		for i in self.members:
+		dirs  = os.listdir(ManEnv.DESCOMPRESSED_ZIP)
+
+		for i in dirs:
 
 			if os.path.isdir(i):
+				
 				os.chdir(i)
 
-				self.cwd = os.getcwd()
+				file_valid = glob.glob('*.jpg') + glob.glob('*.png')\
+									 + glob.glob('*.jpeg')
 
-				dest = ManEnv.MODIFIED_IMAGES + '/' + i
+				if len(file_valid) > 0:
+					destiny = self.getDestiny(i)
+					print "los siguentes archivos estan listos \
+								para ser verificados" + str(file_valid)
 
-				if not os.path.exists(dest):
-					os.mkdir(ManEnv.MODIFIED_IMAGES + '/' + i)
+					self.manipulate_list_img(destiny,file_valid)
+
+				os.chdir(ManEnv.DESCOMPRESSED_ZIP)
 
 
-				self.file_valid = glob.glob('*.jpg') + glob.glob('*.png') + glob.glob('*.jpeg')
+	def getDestiny(self,nom):
 
-				if len(self.file_valid) > 0:
-					print "los siguentes archivos estan listos para ser verificados" + str(self.file_valid)
+		dest = ManEnv.MODIFIED_IMAGES + '/' + nom
 
-					self.Manipulate()
-					os.chdir(self.path)
+		if not os.path.exists(dest):
+			os.mkdir(dest)
 
-		os.chdir(self.origin)
+		return dest
 
-		def Manipulate(self):
-			"""manipula las imagenes de tal forma que puedan caber en un documento pdf
-			en caso de que no las redimensiona y las reemplaza 
-			acepta como arguementos un directorio y una lista de archivos que solo
-			debe contener imagenes"""
+	def manipulate_list_img(self,destiny,listfile):
 
-			for i in self.file_valid:
-				ubi = self.cwd + '/' + i
-				im = Image.open(ubi)
+		for i in listfile:
 
-				if A4[0] < im.size[0] or A4[1] < im.size[1]:
-					print "modificando el archivo %s" %i
-					if im.size[0] > im.size[1]:
+			ubi = os.getcwd() + '/' + i
 
-						mod = im.rotate(90)
+			img = Image.open(ubi)
 
-						if mod.size[0] > A4[0] or mod.size[1] > A4[1]:
-							ult = mod.resize((595,841))
+			if A4[0] < img.size[0] or A4[1] < img.size[1]:
+				if img.size[0] > img.size[1]:
 
-							ult.save(ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)
-						else:
-							mod.save(ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)
+					# obtiene las medidas en puntos y la agraga a un diccionario
+					# bidimensional que esta identificado por el nombre del
+					# directorio
+					pt1 = img.size[0] * 0.75
+					pt2 = img.size[1] * 0.75
+
+					if self.mensaje.othersize.has_key(os.getcwd()):
+
+						self.mensaje.add_other_size(os.getcwd(),i,(pt1,pt2))
 
 					else:
-						mod = im.resize((595,841))
-						mod.save(ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)
+						self.mensaje.adddicc(os.getcwd())
+						self.mensaje.add_other_size(os.getcwd(),i,(pt1,pt2))
+
+					img.save(destiny + '/' + i)
 
 				else:
-					shutil.move(i,ManEnv.MODIFIED_IMAGES + '/' + self.cwd + '/' + i)
+					mod = img.resize((595,841))
+					mod.save(destiny + '/' + i)
+
+			else:
+				img.save(destiny + '/' + i)

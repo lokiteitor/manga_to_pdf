@@ -42,6 +42,7 @@ class Descompress():
 
 
 	def getType(self,archive):
+		"""devuelve el tipo de comprecion"""
 
 		
 		if zipfile.is_zipfile(archive):
@@ -58,6 +59,7 @@ class Descompress():
 
 
 	def UnCompressZip(self,zp):
+		"""descomprime los zip de manera individual en el lugar indicado"""
 		
 
 		with zipfile.ZipFile(zp,'r') as zip:
@@ -84,6 +86,7 @@ class Descompress():
 
 
 	def MoveToLibrary(self,zp,name):
+		"""gestiona los zip ya utilizados"""
 		# este metodo no guarda el archivo en el lugar correcto
 
 

@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import sys
 import getopt
-from Filemanga import FileZip,FileImage,MakePdf,FileMan,Mensaje
+from Filemanga import FileZip,FileImage,MakePdf,FileMan,Mensaje,ManEnv
 
 
 def main(argv):
@@ -47,13 +47,12 @@ def main(argv):
 
 	dsc = FileZip.Descompress(mensajes)
 
-	maneger.DeleteTrash()
 
 	maneger.CheckPdfExist(mensajes)
 	dsc.UnComMult(maneger.SearchCompress())
 
-
-
+	img = FileImage.ManageImg()
+	img.Manipulate_Img()
 
 
 

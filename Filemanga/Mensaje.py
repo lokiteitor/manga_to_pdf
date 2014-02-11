@@ -6,6 +6,7 @@ class Mensaje():
     el usuario"""
     def __init__(self):
         self.blacklist = []
+        self.othersize = {}
 
 
     def ExistPdf(self,problem,archive):
@@ -52,7 +53,17 @@ class Mensaje():
 
         return lst
 
+    # gestiona un diccionario con las medidas personalizadas de las imagenes
+    # que haci lo requieran
+    def adddicc(self,nom):
 
+        self.othersize[nom] = {}
+
+    def add_other_size(self,dicc,clave,tam):
+
+        # error 010: ver issues
+
+        self.othersize[dicc][clave] = tam
 
 
 
