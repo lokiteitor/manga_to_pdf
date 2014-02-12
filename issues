@@ -11,3 +11,6 @@ comprimir luego de cierto limite
 flexibilidad del programa
 
 
+** revisar metodo getvalidlist de Mensaje relacionado con FileZip para obtener lista
+valida de archivos de la lista negra
+

@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from PIL import Image #cambiar esto por pil
+import Image #cambiar esto por pil
 import ManEnv
 import os
 import glob
@@ -28,7 +28,7 @@ class ManipulateImg():
 		os.chdir(ManEnv.DESCOMPRESSED_ZIP)
 
 	def manipulate(self):
-		self.get_directory
+		self.get_directory()
 
 
 	def get_directory(self):
