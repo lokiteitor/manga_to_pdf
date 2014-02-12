@@ -61,9 +61,10 @@ class Mensaje():
 
     def add_other_size(self,dicc,clave,tam):
 
-        # error 010: ver issues
-
         self.othersize[dicc][clave] = tam
+
+
+
 
 
 

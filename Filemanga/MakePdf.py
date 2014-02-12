@@ -19,51 +19,67 @@ import os
 import shutil
 from reportlab.pdfgen import canvas
 
+
 class MakePdf():
-    """construye el pdf"""
-    def __init__(self):
-        pass
-
-    def Check(self):
-        self.files = os.listdir(ManEnv.MODIFIED_IMAGES)
+    """clase encargada de construir los pdf siguiendo la informacion
+    proporcionada por el modulo Mensaje"""
+    def __init__(self, mensaje):
         
-        for i in self.files:
-            print "convirtiendo el archivo %s en pdf" %i
+        self.mensaje = mensaje
 
-            self.path = ManEnv.MODIFIED_IMAGES + '/' + i
+    def checklist(self):
 
-            self.title = i
+        dirslist = os.listdir(ManEnv.MODIFIED_IMAGES)
 
-            if os.path.isdir(self.path):
+        for i in dirslist:
 
-                self.listimg = os.listdir(self.path)
+            print "convirtiendo %s en pdf" %i
 
-                self.Make_Document(self.path+'/')
+            path = ManEnv.MODIFIED_IMAGES + '/' + i
+            title = i
 
-    def Make_Document(self,path):
+            if os.path.isdir(path):
+                listimg = os.listdir(path)
+                self.Make_Document(path+'/',title,listimg)
 
-        Document = canvas.Canvas(self.title + '.pdf')
-        self.listimg.sort()
+        
+    def Make_Document(self,path,title,listimg):
 
-        for i in self.listimg:
+        Document = canvas.Canvas(title + '.pdf')
+
+        listimg.sort()
+
+        if self.mensaje.othersize.has_key(title):
+            special = self.mensaje.othersize[title].keys()
+        else:
+            special = []
+
+        for i in listimg:
             print "agregando %s al pdf" %i
+
+            if special.count(i) > 0:
+
+                Document.setPageSize(self.mensaje.othersize[title][i])
+
             image = path + i
             Document.drawImage(image,0,0)
             Document.showPage()
 
         Document.save()
         #retorna la ruta al documento generado
-        search = os.getcwd() + '/' + self.title + '.pdf'
+        search = os.getcwd() + '/' + title + '.pdf'
+
+        self.movepdf(title,search)
 
 
-        # error 008
+    def movepdf(self,title,gen):
 
-        if not os.path.exists(ManEnv.WORKING_DIR + '/' + self.title + '.pdf'):
-            shutil.move(search,ManEnv.WORKING_DIR + '/')
-            print "se ha creado el archivo %s en el directorio de trabajo" %self.title
+        if not os.path.exists(ManEnv.WORKING_DIR + '/' + title + '.pdf'):
+            shutil.move(gen,ManEnv.WORKING_DIR + '/')
+            print "se ha creado el archivo %s en el directorio de trabajo" %title
 
             print "tareas finalizadas satisfactoriamente"
 
         else:
-            print "el archivo %s ya exite" %self.title
-            os.remove(search)
+            print "el archivo %s ya exite" %title
+            os.remove(gen)

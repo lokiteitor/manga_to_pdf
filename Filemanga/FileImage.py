@@ -74,19 +74,21 @@ class ManipulateImg():
 			if A4[0] < img.size[0] or A4[1] < img.size[1]:
 				if img.size[0] > img.size[1]:
 
+					key = os.path.basename(os.getcwd())
+
 					# obtiene las medidas en puntos y la agraga a un diccionario
 					# bidimensional que esta identificado por el nombre del
 					# directorio
-					pt1 = img.size[0] * 0.75
-					pt2 = img.size[1] * 0.75
+					pt1 = img.size[0]
+					pt2 = img.size[1]
 
-					if self.mensaje.othersize.has_key(os.getcwd()):
+					if self.mensaje.othersize.has_key(key):
 
-						self.mensaje.add_other_size(os.getcwd(),i,(pt1,pt2))
+						self.mensaje.add_other_size(key,i,(pt1,pt2))
 
 					else:
-						self.mensaje.adddicc(os.getcwd())
-						self.mensaje.add_other_size(os.getcwd(),i,(pt1,pt2))
+						self.mensaje.adddicc(key)
+						self.mensaje.add_other_size(key,i,(pt1,pt2))
 
 					img.save(destiny + '/' + i)
 
