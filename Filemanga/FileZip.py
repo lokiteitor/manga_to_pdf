@@ -87,8 +87,6 @@ class Descompress():
 
 	def MoveToLibrary(self,zp,name):
 		"""gestiona los zip ya utilizados"""
-		# este metodo no guarda el archivo en el lugar correcto
-
 
 		if os.path.exists(ManEnv.LIBRARY_ZIP + '/' + name):
 			
@@ -99,3 +97,4 @@ class Descompress():
 			
 			shutil.move(zp,ManEnv.LIBRARY_ZIP + '/')
 			print "se ha reubicado el archivo %s a /library/zip" %name
+

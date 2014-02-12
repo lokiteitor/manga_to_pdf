@@ -15,7 +15,7 @@ DESCOMPRESSED_ZIP = os.environ['HOME'] + '/.manga_to_pdf/tmp/images'
 MODIFIED_IMAGES = os.environ['HOME'] + '/.manga_to_pdf/tmp/images_modified'
 
 
-IMGDIR = LIBRARY_ZIP = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/directory'
+IMGDIR  = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/directory'
 
 
 l_path = [TMP,LIBRARY_ZIP,DESCOMPRESSED_ZIP,MODIFIED_IMAGES]
