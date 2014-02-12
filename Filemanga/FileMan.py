@@ -58,26 +58,6 @@ def ComparateImagePdf(dirname):
     os.chdir(origin)
     return checklist
 
-
-def CheckImgDir():
-    origin = os.getcwd()
-    os.chdir(ManEnv.WORKING_DIR)
-
-    for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
-        for name in dirs:
-            if not os.path.islink(name):
-                if not name == 'zip':
-                    if not name == 'library':
-                        if not name == 'directory':
-                            f = FileImage.ManageImg(os.path.join(root,name))
-                            f.Manipulate_Img()
-                            if not os.path.join(root,name) == ManEnv.IMGDIR:
-                                shutil.move(os.path.join(root,name),ManEnv.IMGDIR + '/' + name)
-
-    os.chdir(origin)
-
-
-
 class Manage():
     """clase principal encargada de todas las tareas de administracion de archivos"""
     def __init__(self):
@@ -139,3 +119,24 @@ class Manage():
             path.append(os.path.abspath(i))
 
         return path
+
+    def CheckImgDir():
+        #revisa la existencia de directorios en el area de trabajo candidatas para
+        # la construccion de un pdf. usada en un principio cuando no es posible 
+        # soportar el tipo de compresion de datos utilizado (ex: .rar)
+        # requiere refactorizacion
+        origin = os.getcwd()
+        os.chdir(ManEnv.WORKING_DIR)
+
+        for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
+            for name in dirs:
+                if not os.path.islink(name):
+                    if not name == 'zip':
+                        if not name == 'library':
+                            if not name == 'directory':
+                                f = FileImage.ManageImg(os.path.join(root,name))
+                                f.Manipulate_Img()
+                                if not os.path.join(root,name) == ManEnv.IMGDIR:
+                                    shutil.move(os.path.join(root,name),ManEnv.IMGDIR + '/' + name)
+
+        os.chdir(origin)

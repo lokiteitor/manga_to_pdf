@@ -14,3 +14,4 @@ flexibilidad del programa
 ** revisar metodo getvalidlist de Mensaje relacionado con FileZip para obtener lista
 valida de archivos de la lista negra
 
+** metodo CheckImgDir de FileMan inservible
