@@ -27,13 +27,18 @@ class ManipulateImg():
 
 		os.chdir(ManEnv.DESCOMPRESSED_ZIP)
 
-	def manipulate(self):
-		self.get_directory()
+	def manipulate(self,other_path=None):
+
+		if other_path != None:
+			self.make_only_img(path=other_path)
+		
+		else:
+			self.get_directory()
 
 
-	def get_directory(self):
+	def get_directory(self,path=ManEnv.DESCOMPRESSED_ZIP):
 
-		dirs  = os.listdir(ManEnv.DESCOMPRESSED_ZIP)
+		dirs  = os.listdir(path)
 
 		for i in dirs:
 
@@ -51,12 +56,14 @@ class ManipulateImg():
 
 					self.manipulate_list_img(destiny,file_valid)
 
-				os.chdir(ManEnv.DESCOMPRESSED_ZIP)
+				os.chdir(path)
 
 
 	def getDestiny(self,nom):
 
 		dest = ManEnv.MODIFIED_IMAGES + '/' + nom
+		print nom
+		print dest
 
 		if not os.path.exists(dest):
 			os.mkdir(dest)
@@ -98,3 +105,23 @@ class ManipulateImg():
 
 			else:
 				img.save(destiny + '/' + i)
+
+	def make_only_img(self,path):
+		origin = os.getcwd()
+
+		os.chdir(path)
+
+		file_valid = glob.glob('*.jpg') + glob.glob('*.png')\
+						+ glob.glob('*.jpeg')
+
+		if len(file_valid) > 0:
+			destiny = self.getDestiny(os.path.basename(path))
+			print "los siguentes archivos estan listos \
+							para ser verificados" + str(file_valid)
+
+			self.manipulate_list_img(destiny,file_valid)
+
+		os.chdir(origin)
+
+
+

@@ -120,23 +120,26 @@ class Manage():
 
         return path
 
-    def CheckImgDir():
+    def CheckImgDir(self,maneger):
         #revisa la existencia de directorios en el area de trabajo candidatas para
         # la construccion de un pdf. usada en un principio cuando no es posible 
         # soportar el tipo de compresion de datos utilizado (ex: .rar)
         # requiere refactorizacion
-        origin = os.getcwd()
         os.chdir(ManEnv.WORKING_DIR)
+
+        exclude = ["zip","library","directory"]
 
         for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
             for name in dirs:
                 if not os.path.islink(name):
-                    if not name == 'zip':
-                        if not name == 'library':
-                            if not name == 'directory':
-                                f = FileImage.ManageImg(os.path.join(root,name))
-                                f.Manipulate_Img()
-                                if not os.path.join(root,name) == ManEnv.IMGDIR:
-                                    shutil.move(os.path.join(root,name),ManEnv.IMGDIR + '/' + name)
 
-        os.chdir(origin)
+                    if exclude.count(name) == 0:
+
+                        maneger.manipulate(os.path.join(root,name))
+
+
+                        if not os.path.exists(os.path.join(ManEnv.IMGDIR,name)):
+                            shutil.move(os.path.join(root,name),ManEnv.IMGDIR  \
+                                + '/' + name)
+
+        os.chdir(self.origin)
