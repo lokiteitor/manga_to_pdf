@@ -16,6 +16,8 @@ def main():
     fl.CheckPdfExist(mnsg)
     fl.CheckImgDir(img)
 
+    img.getDestiny('test')
+
 
 if __name__ == '__main__':
     main()

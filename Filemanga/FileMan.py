@@ -17,7 +17,6 @@ import os
 
 import glob
 import ManEnv
-import FileImage
 import shutil
 
 
@@ -134,10 +133,8 @@ class Manage():
                 if not os.path.islink(name):
 
                     if exclude.count(name) == 0:
-
                         maneger.manipulate(os.path.join(root,name))
-
-
+                        
                         if not os.path.exists(os.path.join(ManEnv.IMGDIR,name)):
                             shutil.move(os.path.join(root,name),ManEnv.IMGDIR  \
                                 + '/' + name)

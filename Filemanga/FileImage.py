@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import Image #cambiar esto por pil
+from PIL import Image #cambiar esto por pil
 import ManEnv
 import os
 import glob
@@ -62,11 +62,9 @@ class ManipulateImg():
 	def getDestiny(self,nom):
 
 		dest = ManEnv.MODIFIED_IMAGES + '/' + nom
-		print nom
-		print dest
 
 		if not os.path.exists(dest):
-			os.mkdir(dest)
+			os.makedirs(dest)
 
 		return dest
 
