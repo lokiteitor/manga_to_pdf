@@ -94,9 +94,8 @@ class Manage():
         for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
             for name in dirs:
                 if not os.path.islink(name):
-                    if not name == 'zip':
-                        if not name == 'library':
-                            posibility.append(name)
+                    if os.path.join(root,name).find('library') == -1:
+                        posibility.append(name)
 
         # comparamos los archivos candidato con los pdf
         for i in posibility:
@@ -124,16 +123,13 @@ class Manage():
         #revisa la existencia de directorios en el area de trabajo candidatas para
         # la construccion de un pdf. usada en un principio cuando no es posible 
         # soportar el tipo de compresion de datos utilizado (ex: .rar)
-        # requiere refactorizacion
         os.chdir(ManEnv.WORKING_DIR)
-
-        exclude = ["zip","library","directory"]
 
         for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
             for name in dirs:
                 if not os.path.islink(name):
+                    if os.path.join(root,name).find('library') == -1:
 
-                    if exclude.count(name) == 0:
                         maneger.manipulate(os.path.join(root,name))
                         
                         if not os.path.exists(os.path.join(ManEnv.IMGDIR,name)):

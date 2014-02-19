@@ -37,10 +37,6 @@ class Mensaje():
 
                     print "el archivo sera omitido"
 
-    def getBlackList(self):
-
-        return self.blacklist
-
     def getValidList(self,lst):
 
         if len(self.blacklist) > 0:

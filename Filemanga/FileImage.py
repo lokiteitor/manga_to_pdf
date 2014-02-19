@@ -30,7 +30,8 @@ class ManipulateImg():
 	def manipulate(self,other_path=None):
 
 		if other_path != None:
-			self.make_only_img(path=other_path)
+			if other_path.find(ManEnv.LIBRARY) == -1:
+				self.make_only_img(path=other_path)
 		
 		else:
 			self.get_directory()
@@ -38,22 +39,20 @@ class ManipulateImg():
 
 	def get_directory(self,path=ManEnv.DESCOMPRESSED_ZIP):
 
+		os.chdir(path)
+
 		#error path no valido o incompleto
 
 		dirs  = os.listdir(path)
-
 		for i in dirs:
 
 			if os.path.isdir(i):
-
-				print "y"
 				
 				os.chdir(i)
 
 				file_valid = glob.glob('*.jpg') + glob.glob('*.png')\
 									 + glob.glob('*.jpeg')
 
-				print file_valid
 
 				if len(file_valid) > 0:
 					destiny = self.getDestiny(i)
@@ -114,6 +113,10 @@ class ManipulateImg():
 		origin = os.getcwd()
 
 		os.chdir(path)
+
+		for i in self.mensaje.blacklist:
+			if path.find(i):
+				return
 
 		file_valid = glob.glob('*.jpg') + glob.glob('*.png')\
 						+ glob.glob('*.jpeg')

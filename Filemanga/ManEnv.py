@@ -17,6 +17,8 @@ MODIFIED_IMAGES = os.environ['HOME'] + '/.manga_to_pdf/tmp/images_modified'
 
 IMGDIR  = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/directory'
 
+LIBRARY = '/home/lokiteitor/Documentos/Manga_to_pdf/library'
+
 
 l_path = [TMP,LIBRARY_ZIP,DESCOMPRESSED_ZIP,MODIFIED_IMAGES]
 

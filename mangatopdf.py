@@ -40,13 +40,12 @@ def main(argv):
 	# por lo que se redisenara de acuerdo a las nuevas capacidades de la 
 	# reimplementacion
 
-
+	fl = FileMan.Manage()
 
 	men = Mensaje.Mensaje()
-	fl = FileMan.Manage()
+	
 	img = FileImage.ManipulateImg(men)
 
-	fl.DeleteTrash()
 	fl.CheckPdfExist(men)
 	fl.CheckImgDir(img)
 

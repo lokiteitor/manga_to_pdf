@@ -1,8 +1,5 @@
 descomprimir archivos rar
 comprimir luego de cierto limite 
-*pide sobreescribir un archivo no candidato
-
-
 
 
 *crear clase que busque de forma automatica los archivos candidatos de cualquier tipo
@@ -15,6 +12,4 @@ flexibilidad del programa
 valida de archivos de la lista negra
 
 
-** metodo CheckImgDir de FileMan inservible
 
-**metodo getdestiny no funciona en conjunto con FileMan checkimgdir
