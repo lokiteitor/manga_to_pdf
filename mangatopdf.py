@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import sys
 import getopt
-from Filemanga import FileZip,FileImage,MakePdf,FileMan,Mensaje,ManEnv
+from Filemanga import FileZip,FileImage,MakePdf,FileMan,Mensaje
 
 
 def main(argv):
@@ -41,20 +41,25 @@ def main(argv):
 	# reimplementacion
 
 
-	mensajes = Mensaje.Mensaje()
 
-	maneger = FileMan.Manage()
+	men = Mensaje.Mensaje()
+	fl = FileMan.Manage()
+	img = FileImage.ManipulateImg(men)
 
-	dsc = FileZip.Descompress(mensajes)
+	fl.DeleteTrash()
+	fl.CheckPdfExist(men)
+	fl.CheckImgDir(img)
 
+	des = FileZip.Descompress(men)
 
-	maneger.CheckPdfExist(mensajes)
-	dsc.UnComMult(maneger.SearchCompress())
+	des.UnComMult(fl.SearchCompress())
+	img.manipulate()
 
-	img = FileImage.ManageImg()
-	img.Manipulate_Img()
+	mk = MakePdf.MakePdf(men)
 
+	mk.checklist()
 
+	fl.DeleteTrash()
 
 if __name__ == '__main__':
 	main(sys.argv[1:])

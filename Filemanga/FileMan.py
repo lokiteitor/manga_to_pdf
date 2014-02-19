@@ -112,12 +112,13 @@ class Manage():
 
         com = glob.glob("*.zip") + glob.glob("*.rar")
 
-        path = []
+        lstpath = []
 
         for i in com:
-            path.append(os.path.abspath(i))
+            lstpath.append(os.path.abspath(i))
 
-        return path
+
+        return lstpath
 
     def CheckImgDir(self,maneger):
         #revisa la existencia de directorios en el area de trabajo candidatas para
@@ -139,4 +140,4 @@ class Manage():
                             shutil.move(os.path.join(root,name),ManEnv.IMGDIR  \
                                 + '/' + name)
 
-        os.chdir(self.origin)
+        os.chdir(ManEnv.WORKING_DIR)

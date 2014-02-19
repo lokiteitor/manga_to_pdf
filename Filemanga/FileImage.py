@@ -38,16 +38,22 @@ class ManipulateImg():
 
 	def get_directory(self,path=ManEnv.DESCOMPRESSED_ZIP):
 
+		#error path no valido o incompleto
+
 		dirs  = os.listdir(path)
 
 		for i in dirs:
 
 			if os.path.isdir(i):
+
+				print "y"
 				
 				os.chdir(i)
 
 				file_valid = glob.glob('*.jpg') + glob.glob('*.png')\
 									 + glob.glob('*.jpeg')
+
+				print file_valid
 
 				if len(file_valid) > 0:
 					destiny = self.getDestiny(i)
