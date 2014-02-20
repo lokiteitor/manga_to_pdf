@@ -14,81 +14,118 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from PIL import Image
+from PIL import Image #cambiar esto por pil
 import ManEnv
-import shutil
 import os
 import glob
 from reportlab.lib.pagesizes import A4
 
+class ManipulateImg():
+    def __init__(self,mensaje):
+        self.origin = os.getcwd()
+        self.mensaje = mensaje
 
-def Manage_Image(path = ManEnv.DESCOMPRESSED_ZIP):
-    """proporciona un filtro de archivos y directorios candidatos para el 
-    posterior manejo por la funcion Manipulate"""
+        os.chdir(ManEnv.DESCOMPRESSED_ZIP)
 
-    origin = os.getcwd()
+    def manipulate(self,other_path=None):
 
-    os.chdir(path)
-
-    members = os.listdir(os.getcwd())
-
-    for i in members:
-
-        if os.path.isdir(i):
-            os.chdir(i)
-
-            dest = ManEnv.MODIFIED_IMAGES + '/' + i
-
-            if not os.path.exists(dest):
-                os.mkdir(ManEnv.MODIFIED_IMAGES + '/' + i)
+        if other_path != None:
+            if other_path.find(ManEnv.LIBRARY) == -1:
+                self.make_only_img(path=other_path)
+        
+        else:
+            self.get_directory()
 
 
-            file_valid = glob.glob('*.jpg') + glob.glob('*.png') + glob.glob('*.jpeg')
+    def get_directory(self,path=ManEnv.DESCOMPRESSED_ZIP):
 
-            print "los siguentes archivos estan listos para ser verificados" + str(file_valid)
+        os.chdir(path)
+
+        #error path no valido o incompleto
+
+        dirs  = os.listdir(path)
+        for i in dirs:
+
+            if os.path.isdir(i):
+                
+                os.chdir(i)
+
+                file_valid = glob.glob('*.jpg') + glob.glob('*.png')\
+                                     + glob.glob('*.jpeg')
 
 
-            # error 008: las funciones embebidas en otras podrian causar
-            # futuros errores derivados de sus dependecias
-            if len(file_valid) > 0:
-                Manipulate(file_valid,i)
+                if len(file_valid) > 0:
+                    destiny = self.getDestiny(i)
+                    print "los siguentes archivos estan listos \
+                                para ser verificados" + str(file_valid)
 
-            os.chdir(path)
+                    self.manipulate_list_img(destiny,file_valid)
 
-    os.chdir(origin)
-
-    return
+                os.chdir(path)
 
 
-def Manipulate(candidate,path):
-    """manipula las imagenes de tal forma que puedan caber en un documento pdf
-    en caso de que no las redimensiona y las reemplaza 
-    acepta como arguementos un directorio y una lista de archivos que solo
-    debe contener imagenes"""
+    def getDestiny(self,nom):
 
-    for i in candidate:
-        ubi = os.getcwd() + '/' + i
-        im = Image.open(ubi)
+        dest = ManEnv.MODIFIED_IMAGES + '/' + nom
 
-        if A4[0] < im.size[0] or A4[1] < im.size[1]:
-            print "modificando el archivo %s" %i
-            if im.size[0] > im.size[1]:
+        if not os.path.exists(dest):
+            os.makedirs(dest)
 
-                mod = im.rotate(90)
+        return dest
 
-                if mod.size[0] > A4[0] or mod.size[1] > A4[1]:
-                    ult = mod.resize((595,841))
+    def manipulate_list_img(self,destiny,listfile):
 
-                    ult.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
+        for i in listfile:
+
+            ubi = os.getcwd() + '/' + i
+
+            img = Image.open(ubi)
+
+            if A4[0] < img.size[0] or A4[1] < img.size[1]:
+                if img.size[0] > img.size[1]:
+
+                    key = os.path.basename(os.getcwd())
+
+                    # obtiene las medidas en puntos y la agraga a un diccionario
+                    # bidimensional que esta identificado por el nombre del
+                    # directorio
+                    pt1 = img.size[0]
+                    pt2 = img.size[1]
+
+                    if self.mensaje.othersize.has_key(key):
+
+                        self.mensaje.add_other_size(key,i,(pt1,pt2))
+
+                    else:
+                        self.mensaje.adddicc(key)
+                        self.mensaje.add_other_size(key,i,(pt1,pt2))
+
+                    img.save(destiny + '/' + i)
+
                 else:
-                    mod.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
+                    mod = img.resize((595,841))
+                    mod.save(destiny + '/' + i)
 
             else:
-                mod = im.resize((595,841))
-                mod.save(ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
+                img.save(destiny + '/' + i)
 
-        else:
-            shutil.move(i,ManEnv.MODIFIED_IMAGES + '/' + path + '/' + i)
+    def make_only_img(self,path):
+        origin = os.getcwd()
 
-    return
+        os.chdir(path)
 
+        for i in self.mensaje.blacklist:
+            if path.find(i):
+                return
+
+        file_valid = glob.glob('*.jpg') + glob.glob('*.png')\
+                        + glob.glob('*.jpeg')
+
+        if len(file_valid) > 0:
+            destiny = self.getDestiny(os.path.basename(path))
+            print "los siguentes archivos estan listos \
+                            para ser verificados" + str(file_valid)
+
+            self.manipulate_list_img(destiny,file_valid)
+
+        os.chdir(origin)
