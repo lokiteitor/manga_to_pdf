@@ -58,6 +58,8 @@ def main(argv):
 
 	mk.checklist()
 
+	fl.DeleteTrash()
+
 
 if __name__ == '__main__':
 	main(sys.argv[1:])
