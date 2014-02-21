@@ -31,7 +31,9 @@ class ManipulateImg():
 
 		if other_path != None:
 			if other_path.find(ManEnv.LIBRARY) == -1:
-				self.make_only_img(path=other_path)
+				key = self.make_only_img(path=other_path)
+				print key
+				return key
 		
 		else:
 			self.get_directory()
@@ -110,6 +112,8 @@ class ManipulateImg():
 				img.save(destiny + '/' + i)
 
 	def make_only_img(self,path):
+
+
 		origin = os.getcwd()
 
 		os.chdir(path)
@@ -128,6 +132,17 @@ class ManipulateImg():
 
 			self.manipulate_list_img(destiny,file_valid)
 
+			key = (True,path)
+
+		else:
+			# en este momento abra que preever la indefinicion correcta del 
+			# directorio hijo por lo que creo deberia de tomar el titulo del
+			# padre y fusionarlo con el titulo del hijo
+			key = (False,path)
+			# obtenemos la bandera de confirmacion sobre recursividad y
+			# los parametros necesarios en caso de ser requerida
+
+		return key
 		os.chdir(origin)
 
 

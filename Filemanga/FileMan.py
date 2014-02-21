@@ -119,21 +119,31 @@ class Manage():
 
         return lstpath
 
-    def CheckImgDir(self,maneger):
+    def CheckImgDir(self,maneger,path=ManEnv.WORKING_DIR):
         #revisa la existencia de directorios en el area de trabajo candidatas para
         # la construccion de un pdf. usada en un principio cuando no es posible 
         # soportar el tipo de compresion de datos utilizado (ex: .rar)
-        os.chdir(ManEnv.WORKING_DIR)
+        os.chdir(path)
 
-        for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
+        for root, dirs, files in os.walk(path):
             for name in dirs:
                 if not os.path.islink(name):
                     if os.path.join(root,name).find('library') == -1:
 
-                        maneger.manipulate(os.path.join(root,name))
+                        # revisamos que no pertenesca a library y despues 
+                        # optenemos los parametros necesarios para confirmar 
+                        # la recursividad 
+
+                        key = maneger.manipulate(os.path.join(root,name))
+
+                        if not key[0] == None:
+                            self.CheckImgDir(maneger,key[1])
                         
                         if not os.path.exists(os.path.join(ManEnv.IMGDIR,name)):
                             shutil.move(os.path.join(root,name),ManEnv.IMGDIR  \
                                 + '/' + name)
 
         os.chdir(ManEnv.WORKING_DIR)
+
+
+        
