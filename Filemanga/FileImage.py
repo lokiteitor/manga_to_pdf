@@ -62,6 +62,12 @@ class ManipulateImg():
 								para ser verificados" + str(file_valid)
 
 					self.manipulate_list_img(destiny,file_valid)
+				else:
+
+					other_dirs = os.listdir(os.getcwd())
+
+					if other_dirs:
+						self.get_directory(os.getcwd())
 
 				os.chdir(path)
 

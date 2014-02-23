@@ -40,6 +40,11 @@ class Descompress():
 				name = os.path.basename(i)
 				self.MoveToLibrary(i,name)
 
+			if tp == "rar":
+				self.UnCompressRar(i)
+				mov = os.path.basename(i)
+				self.MoveToLibrary(i,mov)
+
 
 	def getType(self,archive):
 		"""devuelve el tipo de comprecion"""
@@ -84,6 +89,14 @@ class Descompress():
 
 				zip.extractall(destinyImg)
 
+	def UnCompressRar(self,path):
+
+		destiny = self.getDestinyrar(path)
+
+		orden = path + ' ' + destiny
+
+		os.system('unrar x -r %s'%orden)
+
 
 	def MoveToLibrary(self,zp,name):
 		"""gestiona los zip ya utilizados"""
@@ -98,3 +111,13 @@ class Descompress():
 			shutil.move(zp,ManEnv.LIBRARY_ZIP + '/')
 			print "se ha reubicado el archivo %s a /library/zip" %name
 
+	def getDestinyrar(self,path):
+
+		name = os.path.basename(path)
+		name = os.path.splitext(name)[0]
+
+		name = ManEnv.DESCOMPRESSED_ZIP + '/' + name + '/'
+
+		os.mkdir(name)
+
+		return name
