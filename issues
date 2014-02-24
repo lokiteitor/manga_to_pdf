@@ -12,3 +12,7 @@ flexibilidad del programa
 valida de archivos de la lista negra
 
 ** mejorar setup.py
+
+// dar soporte a archivos comprimidos dentro de otros archivos comprimidos
+
+//compara archivos con extencion desconocida con los .rar o .zip y renombrarlos

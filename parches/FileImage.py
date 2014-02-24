@@ -32,7 +32,6 @@ class ManipulateImg():
         if other_path != None:
             if other_path.find(ManEnv.LIBRARY) == -1:
                 key = self.make_only_img(path=other_path)
-                print key
                 return key
         
         else:
@@ -85,9 +84,19 @@ class ManipulateImg():
 
         for i in listfile:
 
+
             ubi = os.getcwd() + '/' + i
 
-            img = Image.open(ubi)
+            try:
+                img = Image.open(ubi)
+            except:
+
+                print ubi
+                print i
+                # esta excepcion es debida a un archivo corrupto de origen 
+                # y por lo tanto ajeno al programa 
+                # el manejo de la excepcion deberia de ser un registro de 
+                # esta en el log de eventos del programa
 
             if A4[0] < img.size[0] or A4[1] < img.size[1]:
                 if img.size[0] > img.size[1]:
@@ -144,6 +153,14 @@ class ManipulateImg():
             # en este momento abra que preever la indefinicion correcta del 
             # directorio hijo por lo que creo deberia de tomar el titulo del
             # padre y fusionarlo con el titulo del hijo
+            
+
+            other_format = glob.glob('*.*')
+            print other_format
+
+            for i in other_format:
+                self.mensaje.makeManComp(i)
+
             key = (False,path)
             # obtenemos la bandera de confirmacion sobre recursividad y
             # los parametros necesarios en caso de ser requerida

@@ -144,6 +144,3 @@ class Manage():
                                 + '/' + name)
 
         os.chdir(ManEnv.WORKING_DIR)
-
-
-        

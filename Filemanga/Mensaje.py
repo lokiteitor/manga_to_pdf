@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import os
+import FileZip
 
 class Mensaje():
     """clase encargada de manejar todas las eventualidades entre el programa y 
@@ -21,6 +22,9 @@ class Mensaje():
     def __init__(self):
         self.blacklist = []
         self.othersize = {}
+        self.otherlst = []
+
+        self.Mancom = FileZip.ExaileCompress()
 
 
     def ExistPdf(self,problem,archive):
@@ -72,3 +76,21 @@ class Mensaje():
     def add_other_size(self,dicc,clave,tam):
 
         self.othersize[dicc][clave] = tam
+
+    def makeManComp(self,path):
+
+
+        if not self.blacklist.count(path) > 0:
+
+            if os.path.splitext(path)[1] == '.rar':
+
+                self.Mancom.UnCompressRar(path)
+                #self.Mancom.MoveToLibrary(path,os.path.basename(path))
+
+            elif os.path.splitext(path)[1] == '.zip':
+
+                self.Mancom.UnCompressZip(path)
+                self.Mancom.MoveToLibrary(path,os.path.basename(path))
+
+
+

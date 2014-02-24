@@ -45,11 +45,12 @@ def main(argv):
 	men = Mensaje.Mensaje()
 	
 	img = FileImage.ManipulateImg(men)
+	des = FileZip.Descompress(men)
 
 	fl.CheckPdfExist(men)
 	fl.CheckImgDir(img)
 
-	des = FileZip.Descompress(men)
+	
 
 	des.UnComMult(fl.SearchCompress())
 	img.manipulate()

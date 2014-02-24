@@ -91,9 +91,19 @@ class Descompress():
 
 	def UnCompressRar(self,path):
 
+		print path
+
+
 		destiny = self.getDestinyrar(path)
 
+		path = path.replace(' ','\\ ')
+		destiny = destiny.replace(' ','\\ ')
+
+		print path
+
 		orden = path + ' ' + destiny
+		print destiny
+		print orden
 
 		os.system('unrar x -r %s'%orden)
 
@@ -121,3 +131,10 @@ class Descompress():
 		os.mkdir(name)
 
 		return name
+
+class ExaileCompress(Descompress):
+	"""descomprime los archivos perdidos encontrados en las busquedas recursivas"""
+	def __init__(self):
+		pass
+
+
