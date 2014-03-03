@@ -109,7 +109,7 @@ class Manage():
 
     def SearchCompress(self):
 
-        com = glob.glob("*.zip") + glob.glob("*.rar")
+        com = glob.glob("*.zip") + glob.glob("*.rar") + glob.glob("*.*")
 
         lstpath = []
 

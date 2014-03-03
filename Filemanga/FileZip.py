@@ -15,6 +15,7 @@
 import zipfile
 import os
 import shutil
+import commands
 
 import FileMan
 import ManEnv
@@ -58,8 +59,10 @@ class Descompress():
 			typ = "rar"
 
 		else:
-			print "archivo no soportado"
+			typ =self.getOtherType(archive)
 
+			if typ == "unsoported":
+				print "tipo de archivo no soportado"
 		return 	typ
 
 
@@ -131,6 +134,21 @@ class Descompress():
 		os.mkdir(name)
 
 		return name
+
+	def getOtherType(self,path):
+
+		path = path.replace(' ','\\ ')
+
+		typ = commands.getoutput("file %s"%path)
+
+		if typ.find("RAR"):
+			output = "rar"
+		else:
+			output = "unsoported"
+
+		print output
+		return output
+
 
 class ExaileCompress(Descompress):
 	"""descomprime los archivos perdidos encontrados en las busquedas recursivas"""
