@@ -9,10 +9,15 @@ flexibilidad del programa
 
 
 ** revisar metodo getvalidlist de Mensaje relacionado con FileZip para obtener lista
-valida de archivos de la lista negra
+valida de archivos de la lista negra ** completar con nuevos metodos 
 
 ** mejorar setup.py
+
+
 
 // dar soporte a archivos comprimidos dentro de otros archivos comprimidos
 
 //compara archivos con extencion desconocida con los .rar o .zip y renombrarlos
+
+//mejorar el ordenamiento de las imagenes a fin de no depender de un formato 
+// 001 por que puede surgir un 2
