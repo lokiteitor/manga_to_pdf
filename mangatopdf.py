@@ -61,6 +61,8 @@ def main(argv):
 
 	fl.DeleteTrash()
 
+	men.MakeLog(True)
+
 
 if __name__ == '__main__':
 	main(sys.argv[1:])

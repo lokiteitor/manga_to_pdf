@@ -17,7 +17,7 @@ import re
 import os
 import glob
 
-import Image #cambiar esto por pil
+from PIL import Image #cambiar esto por pil
 import ManEnv
 from reportlab.lib.pagesizes import A4
 
@@ -106,8 +106,7 @@ class ManipulateImg():
                 img = Image.open(ubi)
             except:
 
-                print ubi
-                print i
+                self.mensaje.exception(01,i,ubi)
                 # esta excepcion es debida a un archivo corrupto de origen 
                 # y por lo tanto ajeno al programa 
                 # el manejo de la excepcion deberia de ser un registro de 

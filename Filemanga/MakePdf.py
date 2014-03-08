@@ -17,6 +17,7 @@ import re
 import os
 import shutil
 
+
 import ManEnv
 
 from reportlab.pdfgen import canvas
@@ -103,6 +104,7 @@ class MakePdf():
             Document.showPage()
 
         Document.save()
+        self.mensaje.exception(02,title)
         #retorna la ruta al documento generado
         search = os.getcwd() + '/' + title + '.pdf'
 

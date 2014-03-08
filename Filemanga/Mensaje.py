@@ -14,7 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import os
+
 import FileZip
+import ManEnv
+
 
 class Mensaje():
     """clase encargada de manejar todas las eventualidades entre el programa y 
@@ -23,6 +26,8 @@ class Mensaje():
         self.blacklist = []
         self.othersize = {}
         self.otherlst = []
+        self.imginvalid = {}
+        self.titles = []
 
         self.Mancom = FileZip.ExaileCompress()
 
@@ -92,5 +97,39 @@ class Mensaje():
                 self.Mancom.UnCompressZip(path)
                 self.Mancom.MoveToLibrary(path,os.path.basename(path))
 
+    def exception(self,id,*argv):
 
+        if id == 01:
+            self.imginvalid[argv[0]] = argv[1]
+
+        if id == 02:
+            self.titles.append(argv)
+
+    def MakeLog(self,active=True):
+
+        if active == True:
+            print 'generando el registro de eventos'
+            filelog = ManEnv.WORKING_DIR + '/' + 'log_manga.txt'
+
+            log = open(filelog,'a')
+
+
+
+            ids = self.imginvalid.keys()
+
+            for i in ids:
+
+                path = self.imginvalid[i] + ' esta corrupto y por lo tanto se \
+ha omitido'
+
+                log.write('el archivo %s ubicado en:\n'%i)
+                log.write(path)
+                log.write('\n')
+
+            log.write('se han generando los siguientes titulos\n')
+            for x in self.titles:
+
+                log.write(x[0]+'.pdf\n')
+
+                
 
