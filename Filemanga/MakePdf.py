@@ -19,6 +19,17 @@ import os
 import shutil
 from reportlab.pdfgen import canvas
 
+def order(dsd,lst):
+    aqui = dsd
+    min = "1000.jpg"
+    lon = dsd
+    while lon < len(lst):
+
+        if lst[lon] < min:
+            min = lst[lon]
+        lon = lon + 1
+    return min , aqui
+
 
 class MakePdf():
     """clase encargada de construir los pdf siguiendo la informacion
@@ -46,8 +57,11 @@ class MakePdf():
     def Make_Document(self,path,title,listimg):
 
         Document = canvas.Canvas(title + '.pdf')
+        #################
+        listimg =self.orderlst(listimg)
+        # debo de incluir un metodo de ordenamiento correcto en esta parte
 
-        listimg.sort()
+
 
         if self.mensaje.othersize.has_key(title):
             special = self.mensaje.othersize[title].keys()
@@ -83,3 +97,19 @@ class MakePdf():
         else:
             print "el archivo %s ya exite" %title
             os.remove(gen)
+
+    def orderlst(self,lst):
+
+        # aplicar un filtro para solo las imagenes
+
+        for i in range(len(lst)):
+            min , dst = order(i,lst)
+
+            if min != "1000.jpg":
+                lst.remove(min)
+                lst.insert(dst,min)
+
+        return lst
+
+
+

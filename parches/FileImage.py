@@ -13,11 +13,12 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
+import re
+import os
+import glob
 
 from PIL import Image #cambiar esto por pil
 import ManEnv
-import os
-import glob
 from reportlab.lib.pagesizes import A4
 
 class ManipulateImg():
@@ -45,6 +46,7 @@ class ManipulateImg():
         #error path no valido o incompleto
 
         dirs  = os.listdir(path)
+
         for i in dirs:
 
             if os.path.isdir(i):
@@ -56,24 +58,37 @@ class ManipulateImg():
 
 
                 if len(file_valid) > 0:
-                    destiny = self.getDestiny(i)
+                    destiny = self.getDestiny(i,os.getcwd())
                     print "los siguentes archivos estan listos \
-                                para ser verificados" + str(file_valid)
+                    para ser verificados" + str(file_valid)
 
                     self.manipulate_list_img(destiny,file_valid)
                 else:
 
                     other_dirs = os.listdir(os.getcwd())
 
-                    if other_dirs:
+                    if len(other_dirs) > 0:
                         self.get_directory(os.getcwd())
 
                 os.chdir(path)
 
 
-    def getDestiny(self,nom):
+    def getDestiny(self,nom,path):
 
         dest = ManEnv.MODIFIED_IMAGES + '/' + nom
+
+        if re.match("\d+",nom):
+            name = os.path.dirname(path)
+
+            if name == ManEnv.MODIFIED_IMAGES:
+
+                dest = ManEnv.MODIFIED_IMAGES + '/' + nom
+            else:
+                if name.find(nom):
+                    dest = ManEnv.MODIFIED_IMAGES + '/' + os.path.basename(name)
+                else:
+                    dest = ManEnv.MODIFIED_IMAGES + '/' + os.path.basename(name) + '/' + nom
+
 
         if not os.path.exists(dest):
             os.makedirs(dest)
@@ -143,7 +158,7 @@ class ManipulateImg():
         if len(file_valid) > 0:
             destiny = self.getDestiny(os.path.basename(path))
             print "los siguentes archivos estan listos \
-                            para ser verificados" + str(file_valid)
+            para ser verificados" + str(file_valid)
 
             self.manipulate_list_img(destiny,file_valid)
 

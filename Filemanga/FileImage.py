@@ -17,9 +17,7 @@ import re
 import os
 import glob
 
-import pdb
-
-from PIL import Image #cambiar esto por pil
+import Image #cambiar esto por pil
 import ManEnv
 from reportlab.lib.pagesizes import A4
 

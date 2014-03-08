@@ -21,3 +21,9 @@ valida de archivos de la lista negra ** completar con nuevos metodos
 
 //mejorar el ordenamiento de las imagenes a fin de no depender de un formato 
 // 001 por que puede surgir un 2
+
+++ probablemente el problema de ordenamiento se deba a efectos externos mas que
+++ cualquier otra cosa hacer pruebas unitarias sobre candidatos conflictivos
+
+++ el desorden solo se ha notado en los archivos que tienen la forma 22.jpg
+++ mientras que los que funcionan de la forma 022.jpg funcionan a la perfeccion
