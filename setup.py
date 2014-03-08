@@ -45,7 +45,7 @@ setup(
     , url='http://www.desarrolloslkt.tk'
     , author='David Delgado'
     , author_email='lokiteitor513@gmail.com'
-    , version='2.0.0a_build_200' # remember to change me for new versions!
+    , version='2.0.0a_build_250' # remember to change me for new versions!
     , description='sencillo programa que gestina el manga del usuario de forma totalmente autonoma'
     , long_description=open('README.txt').read()
     , scripts=['mangatopdf.py']

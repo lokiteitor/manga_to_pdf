@@ -4,9 +4,6 @@ comprimir luego de cierto limite
 
 *crear clase que busque de forma automatica los archivos candidatos de cualquier tipo
 
-** he optado por reconstruir o reorganizar todos los modulos para una mayor claridad
-flexibilidad del programa
-
 
 ** revisar metodo getvalidlist de Mensaje relacionado con FileZip para obtener lista
 valida de archivos de la lista negra ** completar con nuevos metodos 
@@ -22,8 +19,11 @@ valida de archivos de la lista negra ** completar con nuevos metodos
 //mejorar el ordenamiento de las imagenes a fin de no depender de un formato 
 // 001 por que puede surgir un 2
 
-++ probablemente el problema de ordenamiento se deba a efectos externos mas que
-++ cualquier otra cosa hacer pruebas unitarias sobre candidatos conflictivos
+// solucionar problema del hola en la funcion de ordenamiento:
+// por que todos pasan por la funcion ordenlst() y no por order
+// importante ya que gasta recursos el convertir una cadena a entero 
+// sin que halla necesidad
 
-++ el desorden solo se ha notado en los archivos que tienen la forma 22.jpg
-++ mientras que los que funcionan de la forma 022.jpg funcionan a la perfeccion
+
+// problema del 10 en metodo de ordenamiento
+// aprueba que el 10 y solo el 10 es el menor de todos los numeros

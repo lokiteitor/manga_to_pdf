@@ -13,22 +13,44 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-import ManEnv
+import re
 import os
 import shutil
+
+import ManEnv
+
 from reportlab.pdfgen import canvas
 
 def order(dsd,lst):
+    # ordena los numeros del tipo 001.jpg por simple comparacion
     aqui = dsd
-    min = "1000.jpg"
+    mn = "1000.jpg"
     lon = dsd
     while lon < len(lst):
 
-        if lst[lon] < min:
-            min = lst[lon]
+        if lst[lon] < mn:
+            mn = lst[lon]
         lon = lon + 1
-    return min , aqui
+    return mn , aqui
+
+def orderint(dsd,lst):
+    # ordena los numeros del tipo 10.jpg por simple comparacion
+    # emplea una conversion a enteros por lo que puede gastar mas recursos
+
+    aqui = dsd
+    mn = 1000
+    lon = dsd
+
+    while lon < len(lst):
+        can = int(os.path.splitext(lst[lon])[0])
+
+        if can < mn:
+            mn = can
+            aqmn = lon
+        lon = lon + 1
+    mn = lst[aqmn]
+
+    return mn , aqui
 
 
 class MakePdf():
@@ -57,9 +79,7 @@ class MakePdf():
     def Make_Document(self,path,title,listimg):
 
         Document = canvas.Canvas(title + '.pdf')
-        #################
         listimg =self.orderlst(listimg)
-        # debo de incluir un metodo de ordenamiento correcto en esta parte
 
 
 
@@ -72,6 +92,9 @@ class MakePdf():
             print "agregando %s al pdf" %i
 
             if special.count(i) > 0:
+                # revisa si esa pagina en especial cuenta con una peticion 
+                # de tamano personalizado lo busca y lo aplica
+                # la busqueda se realiza desde el diccionario de mensaje
 
                 Document.setPageSize(self.mensaje.othersize[title][i])
 
@@ -99,15 +122,30 @@ class MakePdf():
             os.remove(gen)
 
     def orderlst(self,lst):
+        # metodo de ordenamiento revisa el formato de la cadena
+        # y elige el proceso adecuado
+        lst.sort()
 
         # aplicar un filtro para solo las imagenes
+        for x in lst[0]:
 
-        for i in range(len(lst)):
-            min , dst = order(i,lst)
+            if re.match(x,"0\d\d.jpg"):
+                for i in range(len(lst)):
+                    mn , dst = order(i,lst)
 
-            if min != "1000.jpg":
-                lst.remove(min)
-                lst.insert(dst,min)
+                    if mn != "1000.jpg":
+                        lst.remove(mn)
+                        lst.insert(dst,mn)
+
+            if re.match(x,"[1-9][0-9].jpg") or re.match(x,"[1-9].jpg"):
+                #problema del hola
+                #print "hola"
+                for i in range(len(lst)):
+                    mn , dst = orderint(i,lst)
+
+                    if mn != 1000:
+                        lst.remove(mn)
+                        lst.insert(dst,mn)                
 
         return lst
 

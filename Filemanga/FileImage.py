@@ -156,7 +156,7 @@ class ManipulateImg():
                         + glob.glob('*.jpeg')
 
         if len(file_valid) > 0:
-            destiny = self.getDestiny(os.path.basename(path))
+            destiny = self.getDestiny(os.path.basename(path),path)
             print "los siguentes archivos estan listos \
             para ser verificados" + str(file_valid)
 
