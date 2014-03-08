@@ -150,5 +150,3 @@ class ExaileCompress(Descompress):
 	"""descomprime los archivos perdidos encontrados en las busquedas recursivas"""
 	def __init__(self):
 		pass
-
-

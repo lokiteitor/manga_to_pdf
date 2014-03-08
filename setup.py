@@ -11,8 +11,11 @@ import shutil
 distro = os.uname()[2]
 
 if re.search("ARCH",distro):
-    os.remove('Filemanga/FileImage.py')
-    shutil.move('parches/FileImage.py','Filemanga/')
+    shutil.move('Filemanga/FileImage.py',os.getcwd())
+    shutil.copy('parches/FileImage.py','Filemanga/')
+    postarch = True
+else:
+    postarch = False
 
 
 """prepara el area de trabajo en cada llamada"""
@@ -53,3 +56,7 @@ setup(
     , license='GPL'
 
     )
+
+if postarch:
+    os.remove('Filemanga/FileImage.py')
+    shutil.move(os.getcwd()+'/FileImage.py','Filemanga/')

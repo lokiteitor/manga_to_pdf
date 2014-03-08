@@ -17,7 +17,6 @@ import re
 import os
 import shutil
 
-
 import ManEnv
 
 from reportlab.pdfgen import canvas
@@ -150,6 +149,3 @@ class MakePdf():
                         lst.insert(dst,mn)                
 
         return lst
-
-
-

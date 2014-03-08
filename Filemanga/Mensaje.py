@@ -102,7 +102,7 @@ class Mensaje():
         if id == 01:
             self.imginvalid[argv[0]] = argv[1]
 
-        if id == 02:
+        elif id == 02:
             self.titles.append(argv)
 
     def MakeLog(self,active=True):
@@ -130,6 +130,3 @@ ha omitido'
             for x in self.titles:
 
                 log.write(x[0]+'.pdf\n')
-
-                
-

@@ -17,9 +17,10 @@ import re
 import os
 import glob
 
-from PIL import Image #cambiar esto por pil
-import ManEnv
+import Image #cambiar esto por pil
 from reportlab.lib.pagesizes import A4
+
+import ManEnv
 
 class ManipulateImg():
     def __init__(self,mensaje):
