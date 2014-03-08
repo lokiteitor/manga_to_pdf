@@ -46,10 +46,8 @@ class Descompress():
 				mov = os.path.basename(i)
 				self.MoveToLibrary(i,mov)
 
-
 	def getType(self,archive):
 		"""devuelve el tipo de comprecion"""
-
 		
 		if zipfile.is_zipfile(archive):
 			typ = "zip"
@@ -69,7 +67,6 @@ class Descompress():
 	def UnCompressZip(self,zp):
 		"""descomprime los zip de manera individual en el lugar indicado"""
 		
-
 		with zipfile.ZipFile(zp,'r') as zip:
 
 			check  = zip.namelist()
@@ -94,15 +91,12 @@ class Descompress():
 
 	def UnCompressRar(self,path):
 
-
 		destiny = self.getDestinyrar(path)
 
 		path = path.replace(' ','\\ ')
 		destiny = destiny.replace(' ','\\ ')
 
-
 		orden = path + ' ' + destiny
-
 
 		os.system('unrar x -r -inul %s'%orden)
 

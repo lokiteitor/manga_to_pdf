@@ -81,8 +81,6 @@ class MakePdf():
         Document = canvas.Canvas(title + '.pdf')
         listimg =self.orderlst(listimg)
 
-
-
         if self.mensaje.othersize.has_key(title):
             special = self.mensaje.othersize[title].keys()
         else:
@@ -106,7 +104,6 @@ class MakePdf():
         self.mensaje.exception(02,title)
         #retorna la ruta al documento generado
         search = os.getcwd() + '/' + title + '.pdf'
-
         self.movepdf(title,search)
 
 

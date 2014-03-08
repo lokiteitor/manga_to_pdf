@@ -31,7 +31,6 @@ def ComparateImagePdf(dirname):
 
     checklist = [True,False,""]
 
-
     for i in pdf:
         if os.path.splitext(i)[0] == dirname:
             checklist[0] = False
@@ -52,7 +51,6 @@ def ComparateImagePdf(dirname):
 
                 checklist[2] = redirect
 
-
     os.chdir(origin)
     return checklist
 
@@ -64,7 +62,6 @@ class Manage():
 
         os.chdir(ManEnv.WORKING_DIR)
         self.pdf = glob.glob("*.pdf")
-
 
     def DeleteTrash(self):
         """metodo encargado de la recoleccion de basurae los archivos temporales"""
@@ -80,8 +77,6 @@ class Manage():
                     print "se ha encontrado un enlace simbolico en el directorio \
                     se recomienda que revice en archivo %s" %problem
                     print "ubicado en %s" %self.tmp
-
-
 
     def CheckPdfExist(self,mensaje):
         """metodo que se asegura de que los archivos candidatos no se repitan
@@ -114,7 +109,6 @@ class Manage():
 
         for i in com:
             lstpath.append(os.path.abspath(i))
-
 
         return lstpath
 

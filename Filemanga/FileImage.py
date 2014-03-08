@@ -100,7 +100,6 @@ class ManipulateImg():
 
         for i in listfile:
 
-
             ubi = os.getcwd() + '/' + i
 
             try:
@@ -143,7 +142,6 @@ class ManipulateImg():
 
     def make_only_img(self,path):
 
-
         origin = os.getcwd()
 
         os.chdir(path)
@@ -169,7 +167,6 @@ class ManipulateImg():
             # directorio hijo por lo que creo deberia de tomar el titulo del
             # padre y fusionarlo con el titulo del hijo
             
-
             other_format = glob.glob('*.*')
             print other_format
 

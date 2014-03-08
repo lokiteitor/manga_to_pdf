@@ -84,7 +84,6 @@ class Mensaje():
 
     def makeManComp(self,path):
 
-
         if not self.blacklist.count(path) > 0:
 
             if os.path.splitext(path)[1] == '.rar':
@@ -112,8 +111,6 @@ class Mensaje():
             filelog = ManEnv.WORKING_DIR + '/' + 'log_manga.txt'
 
             log = open(filelog,'a')
-
-
 
             ids = self.imginvalid.keys()
 

@@ -18,7 +18,6 @@ import getopt
 
 from Filemanga import FileZip,FileImage,MakePdf,FileMan,Mensaje
 
-
 def main(argv):
 	"""maneja los argumentos y los asigna a variables para su posterior manejo"""
 	try:
@@ -26,7 +25,6 @@ def main(argv):
 	except getopt.GetoptError:
 		print "el argumento no es valido"
 	
-
 	for opt , arg in options:
 		if opt in ("-d" , "--directorio"):
 			pass
@@ -35,7 +33,6 @@ def main(argv):
 			pass
 
 	print "iniciando proceso"
-
 
 	# esta funcion de momento es inutil debido a la reimplementacion 
 	# por lo que se redisenara de acuerdo a las nuevas capacidades de la 
@@ -49,9 +46,7 @@ def main(argv):
 	des = FileZip.Descompress(men)
 
 	fl.CheckPdfExist(men)
-	fl.CheckImgDir(img)
-
-	
+	fl.CheckImgDir(img)	
 
 	des.UnComMult(fl.SearchCompress())
 	img.manipulate()
