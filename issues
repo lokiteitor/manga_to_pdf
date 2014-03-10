@@ -1,4 +1,3 @@
-descomprimir archivos rar
 comprimir luego de cierto limite 
 
 
@@ -16,8 +15,7 @@ valida de archivos de la lista negra ** completar con nuevos metodos
 
 //compara archivos con extencion desconocida con los .rar o .zip y renombrarlos
 
-//mejorar el ordenamiento de las imagenes a fin de no depender de un formato 
-// 001 por que puede surgir un 2
+
 
 // solucionar problema del hola en la funcion de ordenamiento:
 // por que todos pasan por la funcion ordenlst() y no por order
@@ -29,3 +27,48 @@ valida de archivos de la lista negra ** completar con nuevos metodos
 // aprueba que el 10 y solo el 10 es el menor de todos los numeros
 
 ** mejorar la redimension de las imagenes
+
+
+% error v2.0a400.01: no soporta la descomprecion recursiva desde la creacion
+% el directorio destino en .tmp 
+################################################################
+iniciando proceso
+se ha reubicado el archivo Tonari_21-30.rar a /library/zip
+se ha reubicado el archivo Tonari_11-20.rar a /library/zip
+Traceback (most recent call last):
+  File "/usr/bin/mangatopdf.py", line 68, in <module>
+    main(sys.argv[1:])
+  File "/usr/bin/mangatopdf.py", line 55, in main
+    des.UnComMult(fl.SearchCompress())
+  File "/usr/lib/python2.7/site-packages/Filemanga/FileZip.py", line 45, in UnComMult
+    self.UnCompressRar(i)
+  File "/usr/lib/python2.7/site-packages/Filemanga/FileZip.py", line 94, in UnCompressRar
+    destiny = self.getDestinyrar(path)
+  File "/usr/lib/python2.7/site-packages/Filemanga/FileZip.py", line 124, in getDestinyrar
+    os.mkdir(name)
+OSError: [Errno 17] File exists: '/home/lokiteitor/.manga_to_pdf/tmp/images/Tonari_21-30/'
+
+################################################################
+
+
+% error v2.0a400.02:
+################################################################
+error relacionado con los caracteres de entrada durante el ordenamiento de listas
+no es posible comparar un caracter alfabetico contra uno numerico
+la posible solucion sea introduccir un filtro preordenamiento 
+
+Traceback (most recent call last):
+  File "/usr/bin/mangatopdf.py", line 66, in <module>
+    main(sys.argv[1:])
+  File "/usr/bin/mangatopdf.py", line 58, in main
+    mk.checklist()
+  File "/usr/lib/python2.7/site-packages/Filemanga/MakePdf.py", line 76, in checklist
+    self.Make_Document(path+'/',title,listimg)
+  File "/usr/lib/python2.7/site-packages/Filemanga/MakePdf.py", line 82, in Make_Document
+    listimg =self.orderlst(listimg)
+  File "/usr/lib/python2.7/site-packages/Filemanga/MakePdf.py", line 142, in orderlst
+    mn , dst = orderint(i,lst)
+  File "/usr/lib/python2.7/site-packages/Filemanga/MakePdf.py", line 45, in orderint
+    can = int(os.path.splitext(lst[lon])[0])
+ValueError: invalid literal for int() with base 10: '00a '
+################################################################
