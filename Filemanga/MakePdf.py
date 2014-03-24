@@ -17,7 +17,6 @@ import re
 import os
 import shutil
 
-import ManEnv
 
 from reportlab.pdfgen import canvas
 
@@ -56,19 +55,20 @@ def orderint(dsd,lst):
 class MakePdf():
     """clase encargada de construir los pdf siguiendo la informacion
     proporcionada por el modulo Mensaje"""
-    def __init__(self, mensaje):
+    def __init__(self, mensaje,indexdir):
+        self.indexdir = indexdir
         
         self.mensaje = mensaje
 
     def checklist(self):
 
-        dirslist = os.listdir(ManEnv.MODIFIED_IMAGES)
+        dirslist = os.listdir(self.indexdir.MODIFIED_IMAGES)
 
         for i in dirslist:
 
             print "convirtiendo %s en pdf" %i
 
-            path = ManEnv.MODIFIED_IMAGES + '/' + i
+            path = self.indexdir.MODIFIED_IMAGES + '/' + i
             title = i
 
             if os.path.isdir(path):
@@ -109,8 +109,8 @@ class MakePdf():
 
     def movepdf(self,title,gen):
 
-        if not os.path.exists(ManEnv.WORKING_DIR + '/' + title + '.pdf'):
-            shutil.move(gen,ManEnv.WORKING_DIR + '/')
+        if not os.path.exists(self.indexdir.WORKING_DIR + '/' + title + '.pdf'):
+            shutil.move(gen,self.indexdir.WORKING_DIR + '/')
             print "se ha creado el archivo %s en el directorio de trabajo" %title
 
             print "tareas finalizadas satisfactoriamente"
@@ -120,10 +120,27 @@ class MakePdf():
             os.remove(gen)
 
     def orderlst(self,lst):
+        otherlist = []
         # metodo de ordenamiento revisa el formato de la cadena
         # y elige el proceso adecuado
         lst.sort()
 
+        #filtramos numeros de caracteres no numericos
+        # a fin de evitar un problema durante la conversion
+        cont = 3
+        while cont > 0:
+            for i in lst:
+
+                level1 = i.replace(' ','')
+
+                if not level1.split('.')[0].isdigit():
+                    print i
+
+                    otherlist.append(i)
+                    lst.remove(i)
+            cont = cont - 1
+        print otherlist
+        print lst
         # aplicar un filtro para solo las imagenes
         for x in lst[0]:
 
@@ -143,6 +160,9 @@ class MakePdf():
 
                     if mn != 1000:
                         lst.remove(mn)
-                        lst.insert(dst,mn)                
+                        lst.insert(dst,mn)
+
+        for y in otherlist:
+            lst.append(y)           
 
         return lst

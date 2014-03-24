@@ -18,12 +18,12 @@ import shutil
 import commands
 
 import FileMan
-import ManEnv
 
 class Descompress():
 	"""encargada de descomprimir cualquier archivo comprimido sin importar el tipo
 	asi como tambien comprimir archivos y administrarlos"""
-	def __init__(self,mensaje):
+	def __init__(self,mensaje,indexdir):
+		self.indexdir = indexdir
 
 		self.mensaje = mensaje
 
@@ -77,15 +77,15 @@ class Descompress():
 
 				if valid[0] or valid[0] == valid[1] == False:
 
-					zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+					zip.extractall(self.indexdir.DESCOMPRESSED_ZIP + '/')
 				else:
 
-					zip.extractall(ManEnv.DESCOMPRESSED_ZIP + '/')
+					zip.extractall(self.indexdir.DESCOMPRESSED_ZIP + '/')
 
-					os.rename(ManEnv.DESCOMPRESSED_ZIP + '/' + check[0],valid[2])
+					os.rename(self.indexdir.DESCOMPRESSED_ZIP + '/' + check[0],valid[2])
 
 			else:
-				destinyImg = ManEnv.DESCOMPRESSED_ZIP + "/" + os.path.splitext(os.path.basename(zp))[0] + '/'
+				destinyImg = self.indexdir.DESCOMPRESSED_ZIP + "/" + os.path.splitext(os.path.basename(zp))[0] + '/'
 
 				zip.extractall(destinyImg)
 
@@ -104,14 +104,14 @@ class Descompress():
 	def MoveToLibrary(self,zp,name):
 		"""gestiona los zip ya utilizados"""
 
-		if os.path.exists(ManEnv.LIBRARY_ZIP + '/' + name):
+		if os.path.exists(self.indexdir.LIBRARY_ZIP + '/' + name):
 			
 			print "el archivo ya existe en la libreria zip"
 			os.remove(zp)
 
 		else:	
 			
-			shutil.move(zp,ManEnv.LIBRARY_ZIP + '/')
+			shutil.move(zp,self.indexdir.LIBRARY_ZIP + '/')
 			print "se ha reubicado el archivo %s a /library/zip" %name
 
 	def getDestinyrar(self,path):
@@ -119,7 +119,7 @@ class Descompress():
 		name = os.path.basename(path)
 		name = os.path.splitext(name)[0]
 
-		name = ManEnv.DESCOMPRESSED_ZIP + '/' + name + '/'
+		name = self.indexdir.DESCOMPRESSED_ZIP + '/' + name + '/'
 
 		os.mkdir(name)
 
@@ -136,7 +136,6 @@ class Descompress():
 		else:
 			output = "unsoported"
 
-		print output
 		return output
 
 

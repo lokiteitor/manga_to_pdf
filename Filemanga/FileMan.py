@@ -17,7 +17,6 @@ import os
 import glob
 import shutil
 
-import ManEnv
 
 def ComparateImagePdf(dirname):
 
@@ -25,7 +24,7 @@ def ComparateImagePdf(dirname):
     # modificada
 
     origin = os.getcwd()
-    os.chdir(ManEnv.WORKING_DIR)
+    os.chdir(self.indexdir.WORKING_DIR)
 
     pdf = glob.glob('*.pdf')
 
@@ -47,7 +46,7 @@ def ComparateImagePdf(dirname):
                 print "introduce el nuevo nombre "
                 nom = raw_input()
 
-                redirect = ManEnv.DESCOMPRESSED_ZIP + '/' + nom
+                redirect = self.indexdir.DESCOMPRESSED_ZIP + '/' + nom
 
                 checklist[2] = redirect
 
@@ -56,11 +55,12 @@ def ComparateImagePdf(dirname):
 
 class Manage():
     """clase principal encargada de todas las tareas de administracion de archivos"""
-    def __init__(self):
-        self.tmp = ManEnv.TMP
+    def __init__(self,indexdir):
+        self.indexdir = indexdir
+        self.tmp = self.indexdir.TMP
         self.origin = os.getcwd()
 
-        os.chdir(ManEnv.WORKING_DIR)
+        os.chdir(self.indexdir.WORKING_DIR)
         self.pdf = glob.glob("*.pdf")
 
     def DeleteTrash(self):
@@ -85,7 +85,7 @@ class Manage():
         # analizamos las posibilidades en base a los archivos candidato
         posibility = glob.glob("*.zip")
 
-        for root, dirs, files in os.walk(ManEnv.WORKING_DIR):
+        for root, dirs, files in os.walk(self.indexdir.WORKING_DIR):
             for name in dirs:
                 if not os.path.islink(name):
                     if os.path.join(root,name).find('library') == -1:
@@ -112,10 +112,13 @@ class Manage():
 
         return lstpath
 
-    def CheckImgDir(self,maneger,path=ManEnv.WORKING_DIR):
+    def CheckImgDir(self,maneger,path=None):
         #revisa la existencia de directorios en el area de trabajo candidatas para
         # la construccion de un pdf. usada en un principio cuando no es posible 
         # soportar el tipo de compresion de datos utilizado (ex: .rar)
+        if path == None:
+            path = self.indexdir.WORKING_DIR
+
         os.chdir(path)
 
         for root, dirs, files in os.walk(path):
@@ -129,11 +132,11 @@ class Manage():
 
                         key = maneger.manipulate(os.path.join(root,name))
 
-                        if not key[0] == None:
+                        if key[0] == False:
                             self.CheckImgDir(maneger,key[1])
                         
-                        if not os.path.exists(os.path.join(ManEnv.IMGDIR,name)):
-                            shutil.move(os.path.join(root,name),ManEnv.IMGDIR  \
+                        if not os.path.exists(os.path.join(self.indexdir.IMGDIR,name)):
+                            shutil.move(os.path.join(root,name),self.indexdir.IMGDIR  \
                                 + '/' + name)
 
-        os.chdir(ManEnv.WORKING_DIR)
+        os.chdir(self.indexdir.WORKING_DIR)

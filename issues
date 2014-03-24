@@ -72,3 +72,11 @@ Traceback (most recent call last):
     can = int(os.path.splitext(lst[lon])[0])
 ValueError: invalid literal for int() with base 10: '00a '
 ################################################################
+
+
+% error v2.0a400.03:
+################################################################
+descomprime el archivo de un directorio que el usuario descomprime a voluntad
+esto genera un doble trabajo innecesario
+la posible solucion sea el registro en tiempo de ejecucion de que archivos se
+repiten en base al nombre 

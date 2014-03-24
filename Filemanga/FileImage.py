@@ -17,30 +17,30 @@ import re
 import os
 import glob
 
-import Image #cambiar esto por pil
+from PIL import Image #cambiar esto por pil
 from reportlab.lib.pagesizes import A4
 
-import ManEnv
 
 class ManipulateImg():
-    def __init__(self,mensaje):
+    def __init__(self,mensaje,indexdir):
+        self.indexdir = indexdir
         self.origin = os.getcwd()
         self.mensaje = mensaje
 
-        os.chdir(ManEnv.DESCOMPRESSED_ZIP)
+        os.chdir(self.indexdir.DESCOMPRESSED_ZIP)
 
     def manipulate(self,other_path=None):
 
         if other_path != None:
-            if other_path.find(ManEnv.LIBRARY) == -1:
+            if other_path.find(self.indexdir.LIBRARY) == -1:
                 key = self.make_only_img(path=other_path)
                 return key
         
         else:
-            self.get_directory()
+            self.get_directory(self.indexdir.DESCOMPRESSED_ZIP)
 
 
-    def get_directory(self,path=ManEnv.DESCOMPRESSED_ZIP):
+    def get_directory(self,path):
 
         os.chdir(path)
 
@@ -76,19 +76,19 @@ class ManipulateImg():
 
     def getDestiny(self,nom,path):
 
-        dest = ManEnv.MODIFIED_IMAGES + '/' + nom
+        dest = self.indexdir.MODIFIED_IMAGES + '/' + nom
 
         if re.match("\d+",nom):
             name = os.path.dirname(path)
 
-            if name == ManEnv.MODIFIED_IMAGES:
+            if name == self.indexdir.MODIFIED_IMAGES:
 
-                dest = ManEnv.MODIFIED_IMAGES + '/' + nom
+                dest = self.indexdir.MODIFIED_IMAGES + '/' + nom
             else:
                 if name.find(nom):
-                    dest = ManEnv.MODIFIED_IMAGES + '/' + os.path.basename(name)
+                    dest = self.indexdir.MODIFIED_IMAGES + '/' + os.path.basename(name)
                 else:
-                    dest = ManEnv.MODIFIED_IMAGES + '/' + os.path.basename(name) + '/' + nom
+                    dest = self.indexdir.MODIFIED_IMAGES + '/' + os.path.basename(name) + '/' + nom
 
 
         if not os.path.exists(dest):

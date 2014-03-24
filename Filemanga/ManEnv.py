@@ -1,29 +1,37 @@
 #!/usr/bin/env python2.7
 import os
 
-"""prepara el area de trabajo en cada llamada"""
+class IndexDir():
+    """encargada de la gestion y personalizacion de directorios"""
+    def __init__(self):
+        
+        #prepara el area de trabajo en cada llamada
 
-WORKING_DIR = os.environ['HOME'] + '/Documentos/Manga_to_pdf'
+        self.WORKING_DIR = os.environ['HOME'] + '/Documentos/Manga_to_pdf'
 
-TMP = os.environ['HOME'] + '/.manga_to_pdf/tmp'
+        self.TMP = os.environ['HOME'] + '/.manga_to_pdf/tmp'
+        
+        self.LIBRARY_ZIP = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/zip'
+        
+        self.DESCOMPRESSED_ZIP = os.environ['HOME'] + '/.manga_to_pdf/tmp/images'
 
-LIBRARY_ZIP = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/zip'
-DESCOMPRESSED_ZIP = os.environ['HOME'] + '/.manga_to_pdf/tmp/images'
+        self.MODIFIED_IMAGES = os.environ['HOME'] + '/.manga_to_pdf/tmp/images_modified'
 
-MODIFIED_IMAGES = os.environ['HOME'] + '/.manga_to_pdf/tmp/images_modified'
+        self.IMGDIR  = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/directory'
 
+        self.LIBRARY = '/home/lokiteitor/Documentos/Manga_to_pdf/library'
 
-IMGDIR  = os.environ['HOME'] + '/Documentos/Manga_to_pdf/library/directory'
+        self.l_path = [self.TMP,self.LIBRARY_ZIP,self.DESCOMPRESSED_ZIP,self.MODIFIED_IMAGES]
 
-LIBRARY = '/home/lokiteitor/Documentos/Manga_to_pdf/library'
+    def MakeDirs(self):
+        
+        if not os.path.exists(self.WORKING_DIR):
+        	os.mkdir(self.WORKING_DIR)
 
+        for i in self.l_path:
+        	if not os.path.exists(i):
+        		os.makedirs(i)
 
-l_path = [TMP,LIBRARY_ZIP,DESCOMPRESSED_ZIP,MODIFIED_IMAGES]
+    def SetWorkingDir(self,path):
 
-
-if not os.path.exists(WORKING_DIR):
-	os.mkdir(WORKING_DIR)
-
-for i in l_path:
-	if not os.path.exists(i):
-		os.makedirs(i)
+        self.WORKING_DIR = path

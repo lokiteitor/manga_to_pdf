@@ -18,16 +18,30 @@ import getopt
 
 from Filemanga import FileZip,FileImage,MakePdf,FileMan,Mensaje
 
+from Filemanga import ManEnv
+
+def help():
+
+	print "directorio <dir>				eligir un directorio fuera de el por \
+										defecto"
+
+
 def main(argv):
 	"""maneja los argumentos y los asigna a variables para su posterior manejo"""
+	otherWDir = None
 	try:
-		options , arg = getopt.getopt(argv, "d:t:",["directorio=","title="])
+		options , arg = getopt.getopt(argv, "d:t:h",["directorio=","title=","help"])
 	except getopt.GetoptError:
 		print "el argumento no es valido"
+		help()
 	
 	for opt , arg in options:
 		if opt in ("-d" , "--directorio"):
-			pass
+			otherWDir = arg
+
+		elif opt in ("-h","--help"):
+
+			help()
 
 		elif opt in ("-t" , "--title"):
 			pass
@@ -38,12 +52,25 @@ def main(argv):
 	# por lo que se redisenara de acuerdo a las nuevas capacidades de la 
 	# reimplementacion
 
-	fl = FileMan.Manage()
 
-	men = Mensaje.Mensaje()
+
+	if otherWDir != None:
+		Dirs = ManEnv.IndexDir()
+		Dirs.MakeDirs()
+		Dirs.SetWorkingDir(otherWDir)
+
+	else:
+		Dirs = ManEnv.IndexDir()
+		Dirs.MakeDirs()
+
+
+
+	fl = FileMan.Manage(Dirs)
+
+	men = Mensaje.Mensaje(Dirs)
 	
-	img = FileImage.ManipulateImg(men)
-	des = FileZip.Descompress(men)
+	img = FileImage.ManipulateImg(men,Dirs)
+	des = FileZip.Descompress(men,Dirs)
 
 	fl.CheckPdfExist(men)
 	fl.CheckImgDir(img)	
@@ -51,7 +78,7 @@ def main(argv):
 	des.UnComMult(fl.SearchCompress())
 	img.manipulate()
 
-	mk = MakePdf.MakePdf(men)
+	mk = MakePdf.MakePdf(men,Dirs)
 
 	mk.checklist()
 

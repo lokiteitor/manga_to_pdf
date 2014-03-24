@@ -16,13 +16,13 @@
 import os
 
 import FileZip
-import ManEnv
 
 
 class Mensaje():
     """clase encargada de manejar todas las eventualidades entre el programa y 
     el usuario"""
-    def __init__(self):
+    def __init__(self,indexdir):
+        self.indexdir = indexdir
         self.blacklist = []
         self.othersize = {}
         self.otherlst = []
@@ -108,7 +108,7 @@ class Mensaje():
 
         if active == True:
             print 'generando el registro de eventos'
-            filelog = ManEnv.WORKING_DIR + '/' + 'log_manga.txt'
+            filelog = self.indexdir.WORKING_DIR + '/' + 'log_manga.txt'
 
             log = open(filelog,'a')
 
